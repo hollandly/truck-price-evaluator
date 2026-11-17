@@ -26,14 +26,57 @@ import urllib.request
 from datetime import datetime, timezone, timedelta
 
 DATA_FILE = "market-data.json"
-MAX_SIGNALS_PER_SOURCE = 3          # 每个源最多保留几条摘录
-MAX_TOTAL_SIGNALS = 40              # 最多保留多少条
+MAX_SIGNALS_PER_SOURCE = 3          # 其他区域：每个源最多保留几条摘录（保持不变）
+PEARL_RIVER_QUOTA = 8               # 珠三角：每个源多抓一些
+MAX_TOTAL_SIGNALS = 60              # 总量上限（容纳珠三角增量）
+PEARL_RIVER = "珠三角"              # 重点区域标记
 TIMEOUT = 20
 
 # ------------------------------------------------------------
-# 行情源配置：按需增删。text_re 用于在正文里定位含价格的句子。
+# 行情源配置：按需增删。
+#   region: 区域标签，珠三角源会多抓（quota=8），其余源保持默认（quota=3）
+#   quota:  该源最多保留几条摘录；不填则用 MAX_SIGNALS_PER_SOURCE
+#   keys:   句子须同时含价格数字与任一关键词才会被提取
 # ------------------------------------------------------------
 SOURCES = [
+    # ===== 珠三角重点区域（广州/深圳/佛山/东莞等，多抓）=====
+    {
+        "name": "广州·带司机货车租赁",
+        "url": "https://www.jhx56.cn/djsjhczlJG/kunming4432226.html",
+        "keys": ["月租", "9.6米", "厢车", "租金"],
+        "region": PEARL_RIVER, "quota": PEARL_RIVER_QUOTA,
+    },
+    {
+        "name": "深圳·带司机货车租赁",
+        "url": "https://www.jhx56.cn/djsjhczlJG/bijie4414281.html",
+        "keys": ["月租", "9.6米", "厢车", "租金"],
+        "region": PEARL_RIVER, "quota": PEARL_RIVER_QUOTA,
+    },
+    {
+        "name": "深圳·货车出租价格",
+        "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+        "keys": ["9.6米", "小时", "套餐", "公里"],
+        "region": PEARL_RIVER, "quota": 5,
+    },
+    {
+        "name": "广州·9.6米飞翼车主直租",
+        "url": "https://guangzhou.liebiao.com/zuche/224472847.html",
+        "keys": ["月租", "飞翼", "9.6", "承包"],
+        "region": PEARL_RIVER, "quota": PEARL_RIVER_QUOTA,
+    },
+    {
+        "name": "深圳·二手货车行情(86货车网)",
+        "url": "https://www.86huoche.com/shenzhen/a192687.html",
+        "keys": ["二手", "价格", "万元", "国六"],
+        "region": PEARL_RIVER, "quota": PEARL_RIVER_QUOTA,
+    },
+    {
+        "name": "深圳·二手货车行情(江淮)",
+        "url": "https://www.86huoche.com/shenzhen/a219175.html",
+        "keys": ["二手", "价格", "万元", "公里"],
+        "region": PEARL_RIVER, "quota": PEARL_RIVER_QUOTA,
+    },
+    # ===== 其他区域（抓取范围保持不变）=====
     {
         "name": "天天拍车·解放J6二手价",
         "url": "https://m.ttpai.cn/zixun/zhishi-900927",
@@ -121,7 +164,11 @@ def detect_scope(sent):
 def extract_price_sentences(text, keys):
     """提取既包含价格数字、又命中关键词的句子；过滤明显新车广告"""
     out = []
-    price_re = re.compile(r"\d+(?:\.\d+)?\s*(?:万元|万|元/月|元每月|元/天)")
+    # 价格格式：带单位(万/元/月/天/小时) 或 "月租/租金/价格 + 数字" 的口语写法
+    price_re = re.compile(
+        r"(?:\d[\d,]*(?:\.\d+)?\s*(?:万元|万|元/月|元每月|元/天|元/小时|元))"
+        r"|(?:月租|租金|月租费|承包费|价格|车价)\D{0,6}\d[\d,]*"
+    )
     # 噪声：纯新车促销、询价引导、联系方式、金融方案
     noise_re = re.compile(r"询底价|获取最低价|促销|优惠|立减|首付|月供|电话|地址|抢购|厂商指导|促销价|来电|微信|咨询")
     for sent in split_sentences(text):
@@ -160,8 +207,10 @@ def main():
             if not sentences:
                 print(f"[跳过] {src['name']}: 未提取到价格句子")
                 continue
+            # 珠三角源按独立配额多抓，其他源保持默认
+            quota = src.get("quota", MAX_SIGNALS_PER_SOURCE)
             # 优先取信息量适中的句子
-            sentences = sorted(sentences, key=lambda s: abs(len(s) - 55))[:MAX_SIGNALS_PER_SOURCE]
+            sentences = sorted(sentences, key=lambda s: abs(len(s) - 55))[:quota]
             for s in sentences:
                 fresh.append({
                     "date": stamp[:7],
@@ -169,9 +218,10 @@ def main():
                     "url": src["url"],
                     "text": s,
                     "scope": detect_scope(s),   # 口径标注：新车价/二手车价/租赁价/带司机价
+                    "region": src.get("region", "全国"),  # 区域标注：珠三角优先展示
                     "scraped": True,
                 })
-            print(f"[成功] {src['name']}: {len(sentences)} 条")
+            print(f"[成功] {src['name']}[{src.get('region','全国')}]: {len(sentences)} 条")
         except Exception as e:
             print(f"[失败] {src['name']}: {type(e).__name__}: {e}")
 

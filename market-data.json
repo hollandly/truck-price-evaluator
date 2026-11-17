@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-17 14:51",
-  "generatedBy": "manual fix v4 (双轨估值+新能源残值校准)",
+  "updatedAt": "2026-11-17 16:20",
+  "generatedBy": "GitHub Actions / scraper.py",
   "note": "由 GitHub Actions 定期抓取更新，或手动维护。data 为结构化行情基准；signals 为联网抓取的最新报价摘录。",
   "data": [
     {
@@ -568,6 +568,258 @@
   "signals": [
     {
       "date": "2026-11",
+      "src": "广州·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/kunming4432226.html",
+      "text": "日租含8小时/95公里，半日租含4小时/39公里，月租含30天基础服务，台班按8小时/95公里计。",
+      "scope": "租赁价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "广州·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/kunming4432226.html",
+      "text": "以9.6米厢车为例，半日租约1271元，全日租约1730元，月租约21,605元/月。",
+      "scope": "租赁价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "广州·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/kunming4432226.html",
+      "text": "以9.6米厢车为例，带司机日租约1730元，纯租车日租约1190元，差价约540元。",
+      "scope": "带司机价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "广州·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/kunming4432226.html",
+      "text": "9.6米厢车带司机月租约 21,605 元/月 ，适合有固定用车需求的企业客户。",
+      "scope": "带司机价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "广州·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/kunming4432226.html",
+      "text": "月租价格约为日租金×15-20天（相较于按日结算约节省25%-40%）。",
+      "scope": "租赁价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/bijie4414281.html",
+      "text": "日租含8小时/84公里，半日租含4小时/37公里，月租含30天基础服务，台班按8小时/84公里计。",
+      "scope": "租赁价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/bijie4414281.html",
+      "text": "以9.6米厢车为例，半日租约1250元，全日租约1475元，月租约20,433元/月。",
+      "scope": "租赁价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/bijie4414281.html",
+      "text": "以9.6米厢车为例，带司机日租约1475元，纯租车日租约890元，差价约585元。",
+      "scope": "带司机价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/bijie4414281.html",
+      "text": "9.6米厢车带司机月租约 20,433 元/月 ，适合有固定用车需求的企业客户。",
+      "scope": "带司机价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·带司机货车租赁",
+      "url": "https://www.jhx56.cn/djsjhczlJG/bijie4414281.html",
+      "text": "月租价格约为日租金×15-20天（相较于按日结算约节省25%-40%）。",
+      "scope": "租赁价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·货车出租价格",
+      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+      "text": "微面约65元/小时起，4.2米约66元/小时，6.8米约74元/小时，9.6米约127元/小时。",
+      "scope": "口径不明",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·货车出租价格",
+      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+      "text": "如仅租车不带司机，需提供有效驾驶证及押金（车型不同押金3000-8000元），并签订租车协议。",
+      "scope": "带司机价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·货车出租价格",
+      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+      "text": "以上价格为带司机出租参考价，仅租车（不带司机）价格约为基础价的60%-70%，但需另付押金。",
+      "scope": "带司机价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·货车出租价格",
+      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+      "text": "三种计费模式详解 模式一：按小时计费 9.6米厢车 约 127 元/小时 （最低2小时起）。",
+      "scope": "口径不明",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·货车出租价格",
+      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+      "text": "模式三：基础套餐 9.6米厢车 套餐 961 元 （含4小时/60公里）。",
+      "scope": "口径不明",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·货车出租价格",
+      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+      "text": "模式二：按公里计费 9.6米厢车 约 8 元/公里 （最低50公里起）。",
+      "scope": "口径不明",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·货车出租价格",
+      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+      "text": "需提供有效驾驶证及押金（根据车型3000-8000元），签订租车协议。",
+      "scope": "口径不明",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·货车出租价格",
+      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
+      "text": "超出套餐的时长按 51 元/半小时 加收，不足半小时按半小时计。",
+      "scope": "口径不明",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "广州·9.6米飞翼车主直租",
+      "url": "https://guangzhou.liebiao.com/zuche/224472847.html",
+      "text": "现在每个月的月租是11900，公司每一公里补5.2元/升，我们加油的是4.2元/升，每天跑2趟深圳观澜。",
+      "scope": "租赁价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "广州·9.6米飞翼车主直租",
+      "url": "https://guangzhou.liebiao.com/zuche/224472847.html",
+      "text": "出30000元就可以拥有该车的5成股份，每个月你只要给7500的承包费给我就ok了。",
+      "scope": "口径不明",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·二手货车行情(86货车网)",
+      "url": "https://www.86huoche.com/shenzhen/a192687.html",
+      "text": "深圳宝安区2023年福田欧曼行星 厢式货车_价格11.8万元-86货车网 城市列表 ┆ 品牌车型 ┆ 免费发布货车出售 ┆ 免费发布求购信息 注册 ┆ 登陆 这里是86货车网，二手货车交易市场欢迎您！",
+      "scope": "二手车价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "深圳·二手货车行情(江淮)",
+      "url": "https://www.86huoche.com/shenzhen/a219175.html",
+      "text": "深圳龙岗区2020年江淮格尔发 货车_价格6.98万元-86货车网 城市列表 ┆ 品牌车型 ┆ 免费发布货车出售 ┆ 免费发布求购信息 注册 ┆ 登陆 这里是86货车网，二手货车交易市场欢迎您！",
+      "scope": "二手车价",
+      "region": "珠三角",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "天天拍车·解放J6二手价",
+      "url": "https://m.ttpai.cn/zixun/zhishi-900927",
+      "text": "新车报价与二手车保值率全解析 二手车知识 · 06-02 好友卖一辆车，你赚 500 元 南京上门收车检测靠谱吗？",
+      "scope": "新车价",
+      "region": "全国",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "天天拍车·解放J6二手价",
+      "url": "https://m.ttpai.cn/zixun/zhishi-900927",
+      "text": "1. J6P重卡保值情况 根据2025年市场数据，解放J6P保值率整体较为坚挺，但受新车价格下行影响， 近半年二手车平均售价下降约2.3万元 。",
+      "scope": "新车价",
+      "region": "全国",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "天天拍车·解放J6二手价",
+      "url": "https://m.ttpai.cn/zixun/zhishi-900927",
+      "text": "新车20.88万起，二手5.2万开走，现在还值多少钱？",
+      "scope": "新车价",
+      "region": "全国",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "二手货车估价行情",
+      "url": "https://www.ttpai.cn/zixun/by-930303",
+      "text": "但货车是挣钱工具， 里程折旧比年限更关键 ，一年跑20万公里和跑5万公里，车况天差地别。",
+      "scope": "口径不明",
+      "region": "全国",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "二手货车估价行情",
+      "url": "https://www.ttpai.cn/zixun/by-930303",
+      "text": "使用年限 参考折旧率 20万新车残值估算 1年 15%-20% 16-17万 2年 25%-30% 14-15万 3年 35%-40% 12-13万 4年 45%-50% 10-11万 5年以上 55%以上 9万以下 三、车况细节决定最终差价 同样年份里程的两台车， 车况能差出两三万 。",
+      "scope": "新车价",
+      "region": "全国",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
+      "src": "二手货车估价行情",
+      "url": "https://www.ttpai.cn/zixun/by-930303",
+      "text": "品牌保有量：保有量大的车配件便宜、好出手，估价能高几千到一万 上牌年份：按每年折旧率算，前三年约15%-20%，之后逐年递减 行驶里程：重卡一年跑15万公里是常态，超过30万公里要扣减 车况：无大事故、原版原漆、发动机无大修是加分项 二、折旧率怎么套用才合理 很多卡友问，二手货车估价有没有公式？",
+      "scope": "二手车价",
+      "region": "全国",
+      "scraped": true
+    },
+    {
+      "date": "2026-11",
       "src": "卡车之家/查博士",
       "url": "https://www.360che.com/news/260819/205901.html",
       "text": "残值率调研：柴油重卡3年60%以上；首批纯电重卡满三年残值率约42.9%；混动重卡3年约48%；氢能重卡3年约45%、5年30-35%。纯电池健康度低于78%二手商拒收。",
@@ -586,78 +838,6 @@
       "url": "https://www.zbytb.com/s-zb-70111386.html",
       "text": "9.6米厢式燃油货车租赁（不含驾驶员、车龄≤1年、里程≤4万公里）最高限价12600元/月/辆（含税13%）。这是纯租车口径的权威参考价。",
       "scope": "租赁价"
-    },
-    {
-      "date": "2026-11",
-      "src": "天天拍车·解放J6二手价",
-      "url": "https://m.ttpai.cn/zixun/zhishi-900927",
-      "text": "1. J6P重卡保值情况 根据2025年市场数据，解放J6P保值率整体较为坚挺，但受新车价格下行影响， 近半年二手车平均售价下降约2.3万元 。",
-      "scraped": true,
-      "scope": "新车价"
-    },
-    {
-      "date": "2026-11",
-      "src": "天天拍车·解放J6二手价",
-      "url": "https://m.ttpai.cn/zixun/zhishi-900927",
-      "text": "新车20.88万起，二手5.2万开走，现在还值多少钱？",
-      "scraped": true,
-      "scope": "新车价"
-    },
-    {
-      "date": "2026-11",
-      "src": "天天拍车·解放J6二手价",
-      "url": "https://m.ttpai.cn/zixun/zhishi-900927",
-      "text": "大马力车型（>500匹） ：市场供给持续增长，需求旺盛， 保值率更高 ，近半年售价仅下降约1.3万元 小马力车型（<500匹） ：市场相对饱和，价格平稳偏低，保值性 略逊于大马力车型 结论 ：入手解放J6P， 优先考虑大马力（>500匹）车型 ，3-5年车况良好的车辆转手快、保值强。",
-      "scraped": true,
-      "scope": "口径不明"
-    },
-    {
-      "date": "2026-11",
-      "src": "新能源二手货车行情",
-      "url": "http://www.156cv.com/product/83006.html",
-      "text": "以三年车龄、30万公里为基准，头部品牌（如一汽解放、东风天龙）的6×4牵引车，保值率约为新车价的55%-60%；",
-      "scraped": true,
-      "scope": "新车价"
-    },
-    {
-      "date": "2026-11",
-      "src": "新能源二手货车行情",
-      "url": "http://www.156cv.com/product/83006.html",
-      "text": "不少物流企业主发现，花30万买回的“准新车”，半年后可能只值20万——这背后，是行业对 物流商用车 价值评估体系认知的缺失。",
-      "scraped": true,
-      "scope": "新车价"
-    },
-    {
-      "date": "2026-11",
-      "src": "新能源二手货车行情",
-      "url": "http://www.156cv.com/product/83006.html",
-      "text": "某二手车交易平台数据显示，同样2019年上牌的解放J6，国五版比国六版成交价高出约1.5万元，原因就是国六后处理维修成本动辄过万。",
-      "scraped": true,
-      "scope": "二手车价"
-    },
-    {
-      "date": "2026-11",
-      "src": "二手货车估价行情",
-      "url": "https://www.ttpai.cn/zixun/by-930303",
-      "text": "但货车是挣钱工具， 里程折旧比年限更关键 ，一年跑20万公里和跑5万公里，车况天差地别。",
-      "scraped": true,
-      "scope": "口径不明"
-    },
-    {
-      "date": "2026-11",
-      "src": "二手货车估价行情",
-      "url": "https://www.ttpai.cn/zixun/by-930303",
-      "text": "使用年限 参考折旧率 20万新车残值估算 1年 15%-20% 16-17万 2年 25%-30% 14-15万 3年 35%-40% 12-13万 4年 45%-50% 10-11万 5年以上 55%以上 9万以下 三、车况细节决定最终差价 同样年份里程的两台车， 车况能差出两三万 。",
-      "scraped": true,
-      "scope": "新车价"
-    },
-    {
-      "date": "2026-11",
-      "src": "二手货车估价行情",
-      "url": "https://www.ttpai.cn/zixun/by-930303",
-      "text": "品牌保有量：保有量大的车配件便宜、好出手，估价能高几千到一万 上牌年份：按每年折旧率算，前三年约15%-20%，之后逐年递减 行驶里程：重卡一年跑15万公里是常态，超过30万公里要扣减 车况：无大事故、原版原漆、发动机无大修是加分项 二、折旧率怎么套用才合理 很多卡友问，二手货车估价有没有公式？",
-      "scraped": true,
-      "scope": "二手车价"
     },
     {
       "date": "2026-11",

@@ -84,6 +84,9 @@
   .sig-meta{font-size:11px;color:var(--muted);margin-bottom:3px}
   .sig-meta a{color:var(--primary);text-decoration:none}
   .sig-text{font-size:12.5px;color:#374151}
+  .sig-filter{padding:4px 11px;border:1px solid var(--border);background:#fff;border-radius:14px;font-size:11.5px;cursor:pointer;color:var(--muted)}
+  .sig-filter.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .sig-filter[data-region="珠三角"].active{background:#dc2626;border-color:#dc2626}
   .overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;padding:24px;z-index:50}
   .overlay.show{display:flex}
   .modal{background:#fff;border-radius:14px;width:100%;max-width:1120px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column}
@@ -340,6 +343,11 @@
       <div class="card">
         <h2><span class="dot" style="background:var(--teal)"></span>联网抓取的最新市场报价</h2>
         <p class="sub" id="signalSub">由 GitHub Actions 定期抓取，点击右上角「更新行情」刷新</p>
+        <div id="signalFilter" style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0">
+          <button class="sig-filter active" data-region="all" onclick="setSignalFilter('all')">全部</button>
+          <button class="sig-filter" data-region="珠三角" onclick="setSignalFilter('珠三角')">📍 珠三角（重点）</button>
+          <button class="sig-filter" data-region="全国" onclick="setSignalFilter('全国')">其他区域</button>
+        </div>
         <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:10px 13px;font-size:11.5px;color:#92400e;margin-bottom:8px">
           ⚠️ <b>数据准确性说明：</b>以下为网页自动抓取的行情原文片段，源网站会把<b>新车指导价、二手车成交价、带司机价</b>混写在一起，
           <b>仅供参考、不直接参与定价计算</b>。系统定价基准来自人工校准的结构化行情库（口径已区分个人车主/租赁公司）。
@@ -493,7 +501,8 @@ function cleanSignals(arr){
   const SCOPES=['租赁价','二手车价','带司机价','新车价','口径不明'];
   return arr.filter(s=>s&&typeof s==='object'&&!Array.isArray(s))
     .map(s=>({date:String(s.date||''),src:String(s.src||''),url:safeUrl(s.url||''),text:String(s.text||''),
-      scope:SCOPES.includes(s.scope)?s.scope:'口径不明',scraped:!!s.scraped}));
+      scope:SCOPES.includes(s.scope)?s.scope:'口径不明',
+      region:['珠三角','全国'].includes(s.region)?s.region:'全国',scraped:!!s.scraped}));
 }
 
 function loadMarket(){
@@ -532,20 +541,32 @@ async function updateFromRemote(){
     toast('⚠️ 读取失败：'+(location.protocol==='file:'?'请通过 GitHub Pages 访问后再更新':e.message)+'（可手动导入 JSON）');
   }finally{btn.disabled=false;btn.textContent='🔄 更新行情';}
 }
+let signalRegion='all';
+function setSignalFilter(region){
+  signalRegion=region;
+  document.querySelectorAll('.sig-filter').forEach(b=>b.classList.toggle('active',b.getAttribute('data-region')===region));
+  renderSignals();
+}
 function renderSignals(){
   const box=document.getElementById('signalList');
   if(!signals.length){box.innerHTML='<div class="empty">暂无联网行情，点击「更新行情」加载</div>';return;}
+  const prd=signals.filter(s=>s.region==='珠三角').length;
   document.getElementById('signalSub').textContent=
-    '共 '+signals.length+' 条 · 数据更新于 '+(remoteMeta&&remoteMeta.updatedAt||'未知');
-  const scopeCls={'租赁价':'chip up','二手车价':'chip down','带司机价':'chip flat','新车价':'chip flat','口径不明':'chip flat'};
-  box.innerHTML=signals.map((s,i)=>{
+    '共 '+signals.length+' 条（珠三角 '+prd+' 条 · 重点覆盖） · 更新于 '+(remoteMeta&&remoteMeta.updatedAt||'未知');
+  const shown=signalRegion==='all'?signals:signals.filter(s=>s.region===signalRegion);
+  // 珠三角优先展示
+  const sorted=[...shown].sort((a,b)=>(b.region==='珠三角'?1:0)-(a.region==='珠三角'?1:0));
+  box.innerHTML=sorted.map(s=>{
     const sc=s.scope||'口径不明';
     const color={'租赁价':'#dc2626','二手车价':'#16a34a','带司机价':'#d97706','新车价':'#6b7280','口径不明':'#9ca3af'}[sc]||'#9ca3af';
+    const regionTag=s.region==='珠三角'
+      ?'<span style="background:#fee2e2;color:#dc2626;padding:1px 6px;border-radius:4px;font-weight:700">📍珠三角</span> '
+      :'';
     const link=s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer nofollow">'+esc(s.src)+'</a>':esc(s.src);
-    return '<div class="sig-item"><div class="sig-meta">'+esc(s.date)+' · '+
+    return '<div class="sig-item"><div class="sig-meta">'+regionTag+esc(s.date)+' · '+
       link+' · <span style="color:'+color+';font-weight:600">['+esc(sc)+']</span></div>'+
       '<div class="sig-text">'+esc(s.text)+'</div></div>';
-  }).join('');
+  }).join('')||'<div class="empty">该区域暂无抓取数据</div>';
 }
 
 /* ==================== 模式切换 ==================== */
