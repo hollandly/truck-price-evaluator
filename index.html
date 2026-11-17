@@ -411,58 +411,58 @@ const SEED_MARKET = [
   // ===== 租赁 rental：元/月，口径=个人车主直租（3年内车、纯租车、不含司机/油费）=====
   // 参考：广州个人车主 9.6米厢车约5500/月；成都旧车6000、新车8000+司机4000；租赁公司新车含服务约1.2万+
   // 9.6米单桥(4x2)
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',low:4500,high:6000,src:'个人车主行情/成都列表',note:'个人车主直租3年内约5500；旧车6000、新车8000口径'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'高栏/仓栅',low:5000,high:6800,src:'行业行情估算',note:'高栏适用性广，较厢式略高'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'平板',low:4500,high:6000,src:'爱采购',note:'平板个人车主直租'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'飞翼厢式',low:5800,high:7500,src:'行业行情估算',note:'飞翼装卸快，较普通厢式高约10-15%'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'冷藏',low:6500,high:8500,src:'行业行情估算',note:'含冷机，租金较高'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'尾板车',low:5500,high:7200,src:'行业行情估算',note:'带液压尾板，装卸效率高'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'自卸',low:5500,high:7500,src:'行业行情估算',note:'自卸车场景专用'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',low:6500,high:9000,src:'行业调研',note:'纯电租金较柴油高，路权好'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'纯电',body:'飞翼厢式',low:7500,high:10000,src:'换电车型行情',note:'换电式飞翼车'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'氢燃料',body:'厢式',low:9000,high:13000,src:'示范城市估算',note:'氢能重卡租赁多在示范城市'},
-  {u:'rental',cat:'9.6米单桥(4x2)',energy:'混动',body:'厢式',low:6000,high:8200,src:'行业行情估算',note:'混动介于柴油与纯电之间'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',low:4500,high:6000,src:'个人车主行情/成都列表',note:'个人车主直租3年内约5500；旧车6000、新车8000口径',conf:'high'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'高栏/仓栅',low:5000,high:6800,src:'行业行情估算',note:'高栏适用性广，较厢式略高',conf:'low'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'平板',low:4500,high:6000,src:'爱采购',note:'平板个人车主直租',conf:'high'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'飞翼厢式',low:5800,high:7500,src:'行业行情估算',note:'飞翼装卸快，较普通厢式高约10-15%',conf:'low'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'冷藏',low:6500,high:8500,src:'行业行情估算',note:'含冷机，租金较高',conf:'low'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'尾板车',low:5500,high:7200,src:'行业行情估算',note:'带液压尾板，装卸效率高',conf:'low'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'自卸',low:5500,high:7500,src:'行业行情估算',note:'自卸车场景专用',conf:'low'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',low:6500,high:9000,src:'行业调研',note:'纯电租金较柴油高，路权好',conf:'mid'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'纯电',body:'飞翼厢式',low:7500,high:10000,src:'换电车型行情',note:'换电式飞翼车',conf:'mid'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'氢燃料',body:'厢式',low:9000,high:13000,src:'示范城市估算',note:'氢能重卡租赁多在示范城市',conf:'low'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'混动',body:'厢式',low:6000,high:8200,src:'行业行情估算',note:'混动介于柴油与纯电之间',conf:'low'},
   // 9.6米双桥(6x2)
-  {u:'rental',cat:'9.6米双桥(6x2)',energy:'柴油',body:'厢式',low:6500,high:9000,src:'行业行情估算',note:'双桥承载强，较单桥高约20%'},
-  {u:'rental',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',low:6800,high:9200,src:'惠州/潮州物流',note:'纯租日租约970-1250折算'},
-  {u:'rental',cat:'9.6米双桥(6x2)',energy:'柴油',body:'飞翼厢式',low:7500,high:10000,src:'行业行情估算',note:'双桥飞翼'},
-  {u:'rental',cat:'9.6米双桥(6x2)',energy:'纯电',body:'厢式',low:8500,high:11500,src:'行业调研',note:'双桥纯电'},
+  {u:'rental',cat:'9.6米双桥(6x2)',energy:'柴油',body:'厢式',low:6500,high:9000,src:'行业行情估算',note:'双桥承载强，较单桥高约20%',conf:'low'},
+  {u:'rental',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',low:6800,high:9200,src:'惠州/潮州物流',note:'纯租日租约970-1250折算',conf:'high'},
+  {u:'rental',cat:'9.6米双桥(6x2)',energy:'柴油',body:'飞翼厢式',low:7500,high:10000,src:'行业行情估算',note:'双桥飞翼',conf:'low'},
+  {u:'rental',cat:'9.6米双桥(6x2)',energy:'纯电',body:'厢式',low:8500,high:11500,src:'行业调研',note:'双桥纯电',conf:'mid'},
   // 9.6米前四后八(8x4)
-  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'厢式',low:8000,high:11000,src:'行业行情估算',note:'前四后八重载'},
-  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'高栏/仓栅',low:8200,high:11200,src:'行业行情估算',note:'前四后八高栏'},
-  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'纯电',body:'厢式',low:10000,high:14000,src:'行业行情估算',note:'8x4纯电'},
+  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'厢式',low:8000,high:11000,src:'行业行情估算',note:'前四后八重载',conf:'low'},
+  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'高栏/仓栅',low:8200,high:11200,src:'行业行情估算',note:'前四后八高栏',conf:'low'},
+  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'纯电',body:'厢式',low:10000,high:14000,src:'行业行情估算',note:'8x4纯电',conf:'low'},
   // 9.6米甩箱车（车厢可卸式）
-  {u:'rental',cat:'9.6米甩箱车',energy:'柴油',body:'厢式',low:6000,high:8200,src:'行业行情估算',note:'车厢可卸式，含液压拉钩机构'},
-  {u:'rental',cat:'9.6米甩箱车',energy:'纯电',body:'厢式',low:7500,high:10500,src:'换电车型行情',note:'换电式车厢可卸载货车'},
+  {u:'rental',cat:'9.6米甩箱车',energy:'柴油',body:'厢式',low:6000,high:8200,src:'行业行情估算',note:'车厢可卸式，含液压拉钩机构',conf:'low'},
+  {u:'rental',cat:'9.6米甩箱车',energy:'纯电',body:'厢式',low:7500,high:10500,src:'换电车型行情',note:'换电式车厢可卸载货车',conf:'mid'},
   // 牵引/大板（个人车主直租）
-  {u:'rental',cat:'13米牵引',energy:'柴油',body:'平板',low:9000,high:13000,src:'行业估算',note:'带司机约26000，个人纯租9000-13000'},
-  {u:'rental',cat:'17.5米大板',energy:'柴油',body:'平板',low:14000,high:20000,src:'行业估算',note:'带司机约38600，个人纯租14000-20000'},
-  {u:'rental',cat:'49吨牵引',energy:'柴油',body:'平板',low:9000,high:14000,src:'行业行情估算',note:'49吨柴油牵引个人直租'},
-  {u:'rental',cat:'49吨牵引',energy:'纯电',body:'平板',low:12000,high:18000,src:'行业行情估算',note:'49吨纯电牵引'},
-  {u:'rental',cat:'49吨牵引',energy:'氢燃料',body:'平板',low:16000,high:24000,src:'示范城市估算',note:'氢能重卡租赁'},
+  {u:'rental',cat:'13米牵引',energy:'柴油',body:'平板',low:9000,high:13000,src:'行业估算',note:'带司机约26000，个人纯租9000-13000',conf:'low'},
+  {u:'rental',cat:'17.5米大板',energy:'柴油',body:'平板',low:14000,high:20000,src:'行业估算',note:'带司机约38600，个人纯租14000-20000',conf:'low'},
+  {u:'rental',cat:'49吨牵引',energy:'柴油',body:'平板',low:9000,high:14000,src:'行业行情估算',note:'49吨柴油牵引个人直租',conf:'low'},
+  {u:'rental',cat:'49吨牵引',energy:'纯电',body:'平板',low:12000,high:18000,src:'行业行情估算',note:'49吨纯电牵引',conf:'low'},
+  {u:'rental',cat:'49吨牵引',energy:'氢燃料',body:'平板',low:16000,high:24000,src:'示范城市估算',note:'氢能重卡租赁',conf:'low'},
   // ===== 二手车售卖 sale：万元（实际成交价，按车龄档）=====
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',ageMin:0,ageMax:2,low:13,high:19.7,src:'天天拍车',note:'J6L 260马力9.6米厢式准新约14.86万；飞翼19.69万'},
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:7.5,high:12.5,src:'多麦车/今日头条',note:'东风天锦9.6米厢式 国六 成交7.5-12.5万'},
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'高栏/仓栅',ageMin:0,ageMax:2,low:15,high:22,src:'多麦车成交',note:'解放JH6 9.6米高栏 21-22年 成交17-22万'},
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:5,high:10,src:'86货车网',note:'单桥平板 2016-2018年 5-10万'},
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:0,ageMax:2,low:22,high:35,src:'四川市场/查博士',note:'9.6米新能源准新车：新车约38-50万×1-2年残值49-58%'},,
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:3,ageMax:5,low:13,high:22,src:'卡车之家/有驾',note:'3年纯电重卡残值约42.9%，新车40万级约16-18万'},,
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'平板',ageMin:4,ageMax:8,low:7,high:18,src:'成都市场/查博士',note:'电动轻卡5年残值20-28%，纯电重卡5年约26%'},,
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'混动',body:'厢式',ageMin:3,ageMax:5,low:14,high:24,src:'E-POWER/行业调研',note:'混动重卡3年残值约48%，介于柴油与纯电之间'},,
-  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',ageMin:3,ageMax:5,low:11,high:18,src:'梁山/郑州行情',note:'解放JH6 9.6米高栏 国六 3-5年 11-18万'},
-  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',ageMin:6,ageMax:12,low:5,high:10,src:'86货车网',note:'重汽豪瀚/解放 9.6米 2016-2018年 5-7万'},
-  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:14,high:24.5,src:'百度爱采购',note:'解放JH6前四后八9.6米平板 国五 约24.5万'},
-  {u:'sale',cat:'9.6米双桥(6x2)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:18,high:32,src:'行业调研',note:'双桥纯电2-5年，按残值率49%→26%换算'},,
-  {u:'sale',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:17,high:25,src:'多麦车/梁山行情',note:'前四后八9.6米 国六 17-25万'},
-  {u:'sale',cat:'9.6米前四后八(8x4)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:24,high:40,src:'行业调研',note:'8x4纯电新车50-65万×残值率'},,
-  {u:'sale',cat:'9.6米甩箱车',energy:'柴油',body:'厢式',ageMin:2,ageMax:5,low:12,high:20,src:'行业行情估算',note:'车厢可卸式二手，含液压机构'},
-  {u:'sale',cat:'9.6米甩箱车',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:16,high:30,src:'行业调研',note:'换电式车厢可卸货车，按残值率换算'},,
-  {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:2,ageMax:4,low:14,high:18,src:'梁山行情',note:'东风天龙KL牵引 国六 2-3年 14-18万'},
-  {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:11,src:'梁山行情',note:'重汽豪沃牵引 双驱460 国五 3-4年 8-11万'},
-  {u:'sale',cat:'17.5米大板',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:12,high:22,src:'行业行情估算',note:'17.5米大板二手车区间估算'},
-  {u:'sale',cat:'49吨牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:18,src:'梁山/高安行情',note:'国六牵引车 3-5年 8-18万'},
-  {u:'sale',cat:'49吨牵引',energy:'纯电',body:'平板',ageMin:3,ageMax:5,low:20,high:38,src:'梁山市场/卡车之家',note:'二手新能源牵引1-5万km残值约新车7-8成；3年43%'},,
-  {u:'sale',cat:'49吨牵引',energy:'氢燃料',body:'平板',ageMin:2,ageMax:5,low:35,high:65,src:'IIM/东风T1调研',note:'氢能重卡3年残值约45%，5年30-35%，流通性低'},,
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',ageMin:0,ageMax:2,low:13,high:19.7,src:'天天拍车',note:'J6L 260马力9.6米厢式准新约14.86万；飞翼19.69万',conf:'high'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:7.5,high:12.5,src:'多麦车/今日头条',note:'东风天锦9.6米厢式 国六 成交7.5-12.5万',conf:'high'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'高栏/仓栅',ageMin:0,ageMax:2,low:15,high:22,src:'多麦车成交',note:'解放JH6 9.6米高栏 21-22年 成交17-22万',conf:'high'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:5,high:10,src:'86货车网',note:'单桥平板 2016-2018年 5-10万',conf:'high'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:0,ageMax:2,low:22,high:35,src:'四川市场/查博士',note:'9.6米新能源准新车：新车约38-50万×1-2年残值49-58%',conf:'high'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:3,ageMax:5,low:13,high:22,src:'卡车之家/有驾',note:'3年纯电重卡残值约42.9%，新车40万级约16-18万',conf:'high'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'平板',ageMin:4,ageMax:8,low:7,high:18,src:'成都市场/查博士',note:'电动轻卡5年残值20-28%，纯电重卡5年约26%',conf:'high'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'混动',body:'厢式',ageMin:3,ageMax:5,low:14,high:24,src:'E-POWER/行业调研',note:'混动重卡3年残值约48%，介于柴油与纯电之间',conf:'mid'},
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',ageMin:3,ageMax:5,low:11,high:18,src:'梁山/郑州行情',note:'解放JH6 9.6米高栏 国六 3-5年 11-18万',conf:'high'},
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',ageMin:6,ageMax:12,low:5,high:10,src:'86货车网',note:'重汽豪瀚/解放 9.6米 2016-2018年 5-7万',conf:'high'},
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:14,high:24.5,src:'百度爱采购',note:'解放JH6前四后八9.6米平板 国五 约24.5万',conf:'high'},
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:18,high:32,src:'行业调研',note:'双桥纯电2-5年，按残值率49%→26%换算',conf:'mid'},
+  {u:'sale',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:17,high:25,src:'多麦车/梁山行情',note:'前四后八9.6米 国六 17-25万',conf:'high'},
+  {u:'sale',cat:'9.6米前四后八(8x4)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:24,high:40,src:'行业调研',note:'8x4纯电新车50-65万×残值率',conf:'mid'},
+  {u:'sale',cat:'9.6米甩箱车',energy:'柴油',body:'厢式',ageMin:2,ageMax:5,low:12,high:20,src:'行业行情估算',note:'车厢可卸式二手，含液压机构',conf:'low'},
+  {u:'sale',cat:'9.6米甩箱车',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:16,high:30,src:'行业调研',note:'换电式车厢可卸货车，按残值率换算',conf:'mid'},
+  {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:2,ageMax:4,low:14,high:18,src:'梁山行情',note:'东风天龙KL牵引 国六 2-3年 14-18万',conf:'high'},
+  {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:11,src:'梁山行情',note:'重汽豪沃牵引 双驱460 国五 3-4年 8-11万',conf:'high'},
+  {u:'sale',cat:'17.5米大板',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:12,high:22,src:'行业行情估算',note:'17.5米大板二手车区间估算',conf:'low'},
+  {u:'sale',cat:'49吨牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:18,src:'梁山/高安行情',note:'国六牵引车 3-5年 8-18万',conf:'high'},
+  {u:'sale',cat:'49吨牵引',energy:'纯电',body:'平板',ageMin:3,ageMax:5,low:20,high:38,src:'梁山市场/卡车之家',note:'二手新能源牵引1-5万km残值约新车7-8成；3年43%',conf:'high'},
+  {u:'sale',cat:'49吨牵引',energy:'氢燃料',body:'平板',ageMin:2,ageMax:5,low:35,high:65,src:'IIM/东风T1调研',note:'氢能重卡3年残值约45%，5年30-35%，流通性低',conf:'mid'},
 ];
 
 /* ==================== 状态与存储 ==================== */
@@ -473,15 +473,37 @@ let signals=[];
 let remoteMeta=null;
 let mode='rental';
 
+/* ===== 安全工具：所有外部来源文本渲染前必须转义，链接必须校验协议 ===== */
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function safeUrl(u){try{const x=new URL(String(u),location.href);return /^https?:$/.test(x.protocol)?x.href:'';}catch(e){return '';}}
+// 数据清洗：只保留结构合法的条目，防止脏数据/注入字段进入计算与渲染
+function cleanMarket(arr){
+  if(!Array.isArray(arr))return [];
+  return arr.filter(x=>x&&typeof x==='object'&&!Array.isArray(x)&&(x.u==='rental'||x.u==='sale')&&Number(x.low)>0&&Number(x.high)>=Number(x.low))
+    .map(x=>({u:x.u,cat:String(x.cat||''),energy:String(x.energy||''),body:String(x.body||''),
+      low:Number(x.low),high:Number(x.high),src:String(x.src||''),note:String(x.note||''),
+      conf:['high','mid','low'].includes(x.conf)?x.conf:null,
+      ...(x.u==='sale'?{ageMin:Number(x.ageMin)||0,ageMax:Number(x.ageMax)||99}:{})}));
+}
+// 依据来源文本推断可信度：high=平台成交/报价，mid=行业调研，low=估算
+function confOf(x){if(x.conf)return x.conf;const s=(x.src||'')+(x.note||'');
+  if(/估算/.test(s))return 'low';if(/调研|换电|示范/.test(s))return 'mid';return 'high';}
+function cleanSignals(arr){
+  if(!Array.isArray(arr))return [];
+  const SCOPES=['租赁价','二手车价','带司机价','新车价','口径不明'];
+  return arr.filter(s=>s&&typeof s==='object'&&!Array.isArray(s))
+    .map(s=>({date:String(s.date||''),src:String(s.src||''),url:safeUrl(s.url||''),text:String(s.text||''),
+      scope:SCOPES.includes(s.scope)?s.scope:'口径不明',scraped:!!s.scraped}));
+}
+
 function loadMarket(){
   try{
     const raw=localStorage.getItem(LS_KEY);
-    market=raw?JSON.parse(raw):JSON.parse(JSON.stringify(SEED_MARKET));
-    market=market.filter(x=>x&&x.u); // 防御：剔除空/损坏条目
-    if(!market.length)market=JSON.parse(JSON.stringify(SEED_MARKET));
+    market=cleanMarket(raw?JSON.parse(raw):SEED_MARKET); // 统一清洗：剔除空槽/损坏/注入字段
+    if(!market.length)market=cleanMarket(SEED_MARKET);
   }
-  catch(e){market=JSON.parse(JSON.stringify(SEED_MARKET));}
-  try{const s=localStorage.getItem(LS_SIG);signals=s?JSON.parse(s):[];}catch(e){signals=[];}
+  catch(e){market=cleanMarket(SEED_MARKET);}
+  try{const s=localStorage.getItem(LS_SIG);signals=cleanSignals(s?JSON.parse(s):[]);}catch(e){signals=[];}
   try{const m=localStorage.getItem(LS_KEY+'_meta');remoteMeta=m?JSON.parse(m):null;}catch(e){remoteMeta=null;}
 }
 function saveMarket(){localStorage.setItem(LS_KEY,JSON.stringify(market));}
@@ -497,10 +519,10 @@ async function updateFromRemote(){
     if(!r.ok)throw new Error('HTTP '+r.status);
     const d=await r.json();
     if(!Array.isArray(d.data))throw new Error('数据格式不正确');
-    market=d.data.filter(x=>x&&x.u); // 防御：剔除空/损坏条目，避免脏数据进入缓存
+    market=cleanMarket(d.data); // 剔除空槽/损坏条目，避免脏数据进入缓存
     if(!market.length)throw new Error('有效行情为空');
     saveMarket();
-    signals=d.signals||[];localStorage.setItem(LS_SIG,JSON.stringify(signals));
+    signals=cleanSignals(d.signals);localStorage.setItem(LS_SIG,JSON.stringify(signals));
     remoteMeta={updatedAt:d.updatedAt||'',generatedBy:d.generatedBy||''};
     localStorage.setItem(LS_KEY+'_meta',JSON.stringify(remoteMeta));
     updateStamp();renderSignals();
@@ -516,13 +538,13 @@ function renderSignals(){
   document.getElementById('signalSub').textContent=
     '共 '+signals.length+' 条 · 数据更新于 '+(remoteMeta&&remoteMeta.updatedAt||'未知');
   const scopeCls={'租赁价':'chip up','二手车价':'chip down','带司机价':'chip flat','新车价':'chip flat','口径不明':'chip flat'};
-  box.innerHTML=signals.map(s=>{
+  box.innerHTML=signals.map((s,i)=>{
     const sc=s.scope||'口径不明';
     const color={'租赁价':'#dc2626','二手车价':'#16a34a','带司机价':'#d97706','新车价':'#6b7280','口径不明':'#9ca3af'}[sc]||'#9ca3af';
-    return '<div class="sig-item"><div class="sig-meta">'+(s.date||'')+' · '+
-      (s.url?'<a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+'</a>':s.src)+
-      ' · <span style="color:'+color+';font-weight:600">['+sc+']</span></div>'+
-      '<div class="sig-text">'+s.text+'</div></div>';
+    const link=s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer nofollow">'+esc(s.src)+'</a>':esc(s.src);
+    return '<div class="sig-item"><div class="sig-meta">'+esc(s.date)+' · '+
+      link+' · <span style="color:'+color+';font-weight:600">['+esc(sc)+']</span></div>'+
+      '<div class="sig-text">'+esc(s.text)+'</div></div>';
   }).join('');
 }
 
@@ -766,7 +788,7 @@ function calculate(){
       price=marketPrice*0.6+newCarPrice*0.4;
     }
     price=Math.round(price*100)/100;
-    extraLine=(hit[0]&&hit[0].src)?'市场法参考来源：'+hit.map(x=>x.src).filter((v,i,a)=>a.indexOf(v)===i).join('、'):'';
+    extraLine=(hit[0]&&hit[0].src)?'市场法参考来源：'+esc(hit.map(x=>x.src).filter((v,i,a)=>a.indexOf(v)===i).join('、')):'';
   }
 
   const lo=Math.round(price*(mode==='rental'?0.9:0.92)*100)/100;
@@ -797,13 +819,24 @@ function renderResult(d){
   }
   if(d.extraLine)advice+='<div style="margin-top:8px;font-size:12px;color:var(--muted)">'+d.extraLine+'</div>';
 
-  // 样本可靠性提示：样本过少时估值不确定性高
+  // 样本可靠性 + 数据可信度提示：样本过少或基准含估算数据时揭示不确定性
   let reliability='';
+  const confs=d.hit.map(confOf);
+  const nLow=confs.filter(c=>c==='low').length, nMid=confs.filter(c=>c==='mid').length;
+  let rHtml='';
   if(d.hit.length<3){
-    reliability='<div class="chart-box"><div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:10px 13px;font-size:12px;color:#92400e">'+
-      '⚠️ <b>样本可靠性提示：</b>本次仅匹配到 <b>'+d.hit.length+'</b> 条行情，样本较少，估值区间可能偏窄或偏离真实市场。'+
-      '建议在「市场行情库」补充该车型的更多报价，或以「联网更新」的最新行情交叉参考。'+
-      '</div></div>';
+    rHtml+='⚠️ <b>样本可靠性提示：</b>本次仅匹配到 <b>'+d.hit.length+'</b> 条行情，样本较少，估值区间可能偏窄或偏离真实市场。'+
+      '建议在「市场行情库」补充该车型的更多报价，或以「联网更新」的最新行情交叉参考。';
+  }
+  if(nLow||nMid){
+    if(rHtml)rHtml+='<br><br>';
+    rHtml+='📊 <b>基准数据可信度：</b>本次匹配的 '+d.hit.length+' 条行情中，'+
+      (nLow?'<b>'+nLow+' 条为「行业估算」</b>（非实际成交价）':'')+
+      (nLow&&nMid?'、':'')+(nMid?'<b>'+nMid+' 条为「行业调研」折算值</b>':'')+
+      '。此类基准用于参考定位，正式报价请结合实车检测与当地实际成交价核验。';
+  }
+  if(rHtml){
+    reliability='<div class="chart-box"><div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:10px 13px;font-size:12px;color:#92400e;line-height:1.6">'+rHtml+'</div></div>';
   }
 
   // 异常诊断：当评估价超出行情区间，指出影响最大的因子
@@ -813,7 +846,7 @@ function renderResult(d){
       .sort((a,b)=>Math.abs(b.v-1)-Math.abs(a.v-1)).slice(0,3);
     if(sorted.length){
       const dir=vClass==='v-high'?'上浮':'下压';
-      const list=sorted.map(f=>f.n+'（×'+f.v.toFixed(2)+'）').join('、');
+      const list=sorted.map(f=>esc(f.n)+'（×'+f.v.toFixed(2)+'）').join('、');
       diagnosis='<div class="chart-box"><div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:12px;color:#374151">'+
         '🔍 <b>差异来源分析：</b>评估价'+vText+'，主要受以下因子'+dir+'影响：<b>'+list+'</b>。'+
         (vClass==='v-high'?'若认为报价偏高，可核对这些因子设置是否贴合实际（如区域、品牌溢价）。':'若认为估值偏低，可检查这些因子是否过度压低。')+
@@ -825,7 +858,7 @@ function renderResult(d){
   d.factors.forEach(f=>{
     let cell='<span class="chip flat">基准</span>';
     if(f.v!=null){const c=f.v>1.001?'up':f.v<0.999?'down':'flat';cell='<span class="chip '+c+'">×'+f.v.toFixed(2)+'</span>';}
-    fRows+='<tr><td>'+f.n+'</td>'+(f.note?'<td style="color:var(--muted)">'+f.note+'</td>':'<td></td>')+'<td class="num">'+cell+'</td></tr>';
+    fRows+='<tr><td>'+esc(f.n)+'</td>'+(f.note?'<td style="color:var(--muted)">'+esc(f.note)+'</td>':'<td></td>')+'<td class="num">'+cell+'</td></tr>';
   });
 
   // 双轨估值对比面板
@@ -907,7 +940,7 @@ function factorChart(factors){
   fs.forEach((f,i)=>{
     const y=10+i*rowH,dev=f.v-1,w=Math.abs(dev)*scale;
     const col=dev>0.001?'#dc2626':dev<-0.001?'#16a34a':'#94a3b8';
-    s+='<text x="'+(pad-8)+'" y="'+(y+11)+'" text-anchor="end" font-size="11" fill="#374151">'+f.n+'</text>';
+    s+='<text x="'+(pad-8)+'" y="'+(y+11)+'" text-anchor="end" font-size="11" fill="#374151">'+esc(f.n)+'</text>';
     if(w>0.5)s+='<rect x="'+(dev>0?mid:mid-w)+'" y="'+y+'" width="'+w+'" height="15" rx="3" fill="'+col+'" opacity=".82"/>';
     s+='<text x="'+(dev>0?mid+w+4:mid-w-4)+'" y="'+(y+11)+'" text-anchor="'+(dev>0?'start':'end')+'" font-size="10.5" fill="'+col+'">×'+f.v.toFixed(2)+'</text>';
   });
@@ -926,12 +959,12 @@ function renderMarketTable(){
     const idx=market.indexOf(x);
     return '<tr>'+
       '<td><span class="chip '+(x.u==='rental'?'up':'flat')+'">'+(x.u==='rental'?'租赁':'二手车')+'</span></td>'+
-      '<td>'+x.cat+'</td><td>'+x.energy+'</td><td>'+x.body+'</td>'+
-      '<td>'+(x.u==='sale'?((x.ageMin||0)+'-'+(x.ageMax||'')+'年'):'—')+'</td>'+
-      '<td class="num">'+x.low+'</td><td class="num">'+x.high+'</td>'+
-      '<td class="src" title="'+x.src+'">'+x.src+'</td>'+
-      '<td class="src" title="'+x.note+'">'+x.note+'</td>'+
-      '<td><button class="del" onclick="delMarket('+idx+')">删除</button></td></tr>';
+      '<td>'+esc(x.cat)+'</td><td>'+esc(x.energy)+'</td><td>'+esc(x.body)+'</td>'+
+      '<td>'+(x.u==='sale'?(esc(x.ageMin)+'-'+esc(x.ageMax)+'年'):'—')+'</td>'+
+      '<td class="num">'+esc(x.low)+'</td><td class="num">'+esc(x.high)+'</td>'+
+      '<td class="src" title="'+esc(x.src)+'">'+esc(x.src)+'</td>'+
+      '<td class="src" title="'+esc(x.note)+'">'+esc(x.note)+'</td>'+
+      '<td><button class="del" data-idx="'+idx+'">删除</button></td></tr>';
   }).join('')||'<tr><td colspan="10" class="empty">暂无记录</td></tr>';
 }
 function addMarket(){
@@ -944,9 +977,15 @@ function addMarket(){
   market.push(o);saveMarket();renderMarketTable();updateStamp();
   ['m_low','m_high','m_src','m_note'].forEach(id=>document.getElementById(id).value='');
 }
-function delMarket(i){if(confirm('确定删除该行情条目？')){market.splice(i,1);saveMarket();renderMarketTable();updateStamp();}}
+function delMarket(i){if(!Number.isInteger(i)||i<0||i>=market.length)return;
+  if(confirm('确定删除该行情条目？')){market.splice(i,1);saveMarket();renderMarketTable();updateStamp();}}
+// 事件委托：删除按钮不再内联拼接索引，杜绝注入面
+document.getElementById('marketTbody').addEventListener('click',e=>{
+  const btn=e.target.closest('button[data-idx]');
+  if(btn)delMarket(Number(btn.getAttribute('data-idx')));
+});
 function resetMarket(){if(confirm('恢复为内置默认行情？您添加的条目将丢失。')){
-  market=JSON.parse(JSON.stringify(SEED_MARKET));saveMarket();
+  market=cleanMarket(SEED_MARKET);saveMarket();
   localStorage.removeItem(LS_KEY+'_meta');remoteMeta=null;
   renderMarketTable();updateStamp();}}
 function exportMarket(){
@@ -958,16 +997,17 @@ function exportMarket(){
 function importMarket(e){
   const f=e.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);const arr=Array.isArray(d)?d:d.data;
-    if(!Array.isArray(arr))throw 0;market=arr;saveMarket();
-    if(d.signals){signals=d.signals;localStorage.setItem(LS_SIG,JSON.stringify(signals));renderSignals();}
-    if(d.updatedAt){remoteMeta={updatedAt:d.updatedAt};localStorage.setItem(LS_KEY+'_meta',JSON.stringify(remoteMeta));}
-    renderMarketTable();updateStamp();toast('已导入 '+arr.length+' 条行情。');}
+    const cleaned=cleanMarket(arr);
+    if(!cleaned.length)throw 0;market=cleaned;saveMarket();
+    if(d.signals){signals=cleanSignals(d.signals);localStorage.setItem(LS_SIG,JSON.stringify(signals));renderSignals();}
+    if(d.updatedAt){remoteMeta={updatedAt:String(d.updatedAt).slice(0,40)};localStorage.setItem(LS_KEY+'_meta',JSON.stringify(remoteMeta));}
+    renderMarketTable();updateStamp();toast('已导入 '+cleaned.length+' 条有效行情'+(cleaned.length<arr.length?'（已过滤 '+(arr.length-cleaned.length)+' 条无效数据）':'')+'。');}
     catch(err){alert('文件格式不正确，请导入本系统导出的 JSON。');}};
   r.readAsText(f);e.target.value='';
 }
 function updateStamp(){
   const src=remoteMeta&&remoteMeta.updatedAt?('联网更新 '+remoteMeta.updatedAt):'内置快照';
-  document.getElementById('dataStamp').innerHTML='行情库：<b>'+market.length+'</b> 条 · '+src;
+  document.getElementById('dataStamp').innerHTML='行情库：<b>'+market.length+'</b> 条 · '+esc(src);
 }
 
 /* ==================== 初始化 ==================== */

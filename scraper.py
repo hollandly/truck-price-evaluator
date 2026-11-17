@@ -21,6 +21,7 @@
 import json
 import re
 import ssl
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone, timedelta
 
@@ -50,7 +51,7 @@ SOURCES = [
     },
     {
         "name": "新能源二手货车行情",
-        "url": "http://www.156cv.com/product/83006.html",
+        "url": "https://www.156cv.com/product/83006.html",
         "keys": ["二手", "残值", "万"],
     },
     {
@@ -64,10 +65,20 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 
 
+def _allowed_url(url):
+    """只抓取 https 的公开行情域名，防止任意 URL/内网探测。"""
+    try:
+        p = urllib.parse.urlparse(url)
+        return p.scheme == "https" and bool(p.hostname) and not p.hostname.startswith(("127.", "10.", "192.168.", "localhost"))
+    except Exception:
+        return False
+
+
 def fetch(url):
+    if not _allowed_url(url):
+        raise ValueError("不安全的抓取地址（仅允许 https 公开域名）: " + url)
+    # 启用默认证书链与主机名校验，防止中间人篡改行情内容
     ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "zh-CN,zh;q=0.9"})
     with urllib.request.urlopen(req, timeout=TIMEOUT, context=ctx) as r:
         raw = r.read()
