@@ -497,7 +497,9 @@ async function updateFromRemote(){
     if(!r.ok)throw new Error('HTTP '+r.status);
     const d=await r.json();
     if(!Array.isArray(d.data))throw new Error('数据格式不正确');
-    market=d.data;saveMarket();
+    market=d.data.filter(x=>x&&x.u); // 防御：剔除空/损坏条目，避免脏数据进入缓存
+    if(!market.length)throw new Error('有效行情为空');
+    saveMarket();
     signals=d.signals||[];localStorage.setItem(LS_SIG,JSON.stringify(signals));
     remoteMeta={updatedAt:d.updatedAt||'',generatedBy:d.generatedBy||''};
     localStorage.setItem(LS_KEY+'_meta',JSON.stringify(remoteMeta));
@@ -603,49 +605,40 @@ function residualRate(age,energy){
 
 /* ==================== 行情匹配 ==================== */
 function matchRental(cat,energy,body){
-  // 飞翼/尾板/自卸等若行情库无精确条目，回退到厢式基准（系数在BODY_FACTOR中体现）
-  const bodyKeys=[body];
-  if(['飞翼厢式','尾板车','自卸','冷藏'].includes(body)&&body!=='厢式')bodyKeys.push('厢式');
-  const base=market.filter(x=>x.u==='rental');
-  for(const bk of bodyKeys){
-    const t1=base.filter(x=>x.cat===cat&&x.energy===energy&&x.body===bk);
-    if(t1.length)return t1;
-  }
-  const tiers=[
-    base.filter(x=>x.cat===cat&&x.energy===energy),
-    base.filter(x=>x.energy===energy), base];
-  for(const t of tiers){if(t.length)return t;}
-  return [];
+  // 返回 {list, exactBody, matchBody}。exactBody=true 表示命中条目本身就是用户所选货箱，
+  // 其价格已含该货箱溢价，计算时不得再乘 BODY_FACTOR（避免重复计价）。
+  const base=market.filter(x=>x&&x.u==='rental');
+  const t1=base.filter(x=>x.cat===cat&&x.energy===energy&&x.body===body);
+  if(t1.length)return {list:t1,exactBody:true,matchBody:body};
+  // 无精确货箱：回退到同车型同能源，以厢式为主基准（此时需要货箱系数换算）
+  const t2all=base.filter(x=>x.cat===cat&&x.energy===energy);
+  const t2=t2all.filter(x=>x.body==='厢式');
+  if(t2.length)return {list:t2,exactBody:false,matchBody:body};
+  if(t2all.length)return {list:t2all,exactBody:false,matchBody:body};
+  const t3=base.filter(x=>x.energy===energy);
+  if(t3.length)return {list:t3,exactBody:false,matchBody:body};
+  return {list:[],exactBody:false,matchBody:body};
 }
 function matchSale(cat,energy,body,age){
-  const base=market.filter(x=>x.u==='sale');
-  // 货箱回退：专用车厢若无独立条目，回退到厢式基准（差异由BODY_FACTOR体现）
-  const bodyKeys=[body];
-  if(['飞翼厢式','尾板车','自卸','冷藏'].includes(body)&&body!=='厢式')bodyKeys.push('厢式');
-  let sameCatEnergyBody=[];
-  for(const bk of bodyKeys){
-    sameCatEnergyBody=base.filter(x=>x.cat===cat&&x.energy===energy&&x.body===bk);
-    if(sameCatEnergyBody.length)break;
-  }
-  const sameCatEnergy=base.filter(x=>x.cat===cat&&x.energy===energy);
-  const pool=sameCatEnergyBody.length?sameCatEnergyBody:sameCatEnergy;
-  if(pool.length){
+  const base=market.filter(x=>x&&x.u==='sale');
+  const ageDist=x=>age<(x.ageMin||0)?(x.ageMin||0)-age:age>(x.ageMax||99)?age-(x.ageMax||99):0;
+  const pickAge=pool=>{
     const exact=pool.filter(x=>age>=(x.ageMin||0)&&age<=(x.ageMax||99));
     if(exact.length)return exact;
-    // 计算每条车龄区间到输入车龄的距离（区间内为0）
-    const dist=x=>age<(x.ageMin||0)?(x.ageMin||0)-age:age>(x.ageMax||99)?age-(x.ageMax||99):0;
-    const minD=Math.min(...pool.map(dist));
-    const nearest=pool.filter(x=>dist(x)===minD);
-    return nearest;
-  }
-  // 再放宽：仅同能源
+    const minD=Math.min(...pool.map(ageDist));
+    return pool.filter(x=>ageDist(x)===minD);
+  };
+  // 优先精确货箱：命中条目价格已含该货箱溢价
+  const exactBody=base.filter(x=>x.cat===cat&&x.energy===energy&&x.body===body);
+  if(exactBody.length)return {list:pickAge(exactBody),exactBody:true,matchBody:body};
+  // 回退同车型同能源（需货箱系数换算）
+  const sameCEall=base.filter(x=>x.cat===cat&&x.energy===energy);
+  const sameCE=sameCEall.filter(x=>x.body==='厢式');
+  if(sameCE.length)return {list:pickAge(sameCE),exactBody:false,matchBody:body};
+  if(sameCEall.length)return {list:pickAge(sameCEall),exactBody:false,matchBody:body};
   const sameE=base.filter(x=>x.energy===energy);
-  if(sameE.length){
-    const dist=x=>age<(x.ageMin||0)?(x.ageMin||0)-age:age>(x.ageMax||99)?age-(x.ageMax||99):0;
-    const minD=Math.min(...sameE.map(dist));
-    return sameE.filter(x=>dist(x)===minD);
-  }
-  return base.length?base:[];
+  if(sameE.length)return {list:pickAge(sameE),exactBody:false,matchBody:body};
+  return {list:base.length?pickAge(base):[],exactBody:false,matchBody:body};
 }
 function median(arr){const s=[...arr].sort((a,b)=>a-b);const m=Math.floor(s.length/2);
   return s.length%2?s[m]:(s[m-1]+s[m])/2;}
@@ -661,7 +654,8 @@ function calculate(){
   const source=document.getElementById('f_source').value;
   const unit=mode==='rental'?'元/月':'万元';
 
-  const hit=mode==='rental'?matchRental(cat,energy,body):matchSale(cat,energy,body,age);
+  const mr=mode==='rental'?matchRental(cat,energy,body):matchSale(cat,energy,body,age);
+  const hit=mr.list, exactBody=mr.exactBody;
   if(!hit.length){alert('行情库中暂无匹配数据，请到「市场行情库」补充对应车型行情。');return;}
 
   const lows=hit.map(x=>x.low), highs=hit.map(x=>x.high);
@@ -687,9 +681,13 @@ function calculate(){
     // 品牌
     const bF=BRAND_FACTOR[brand]||{rental:1.0};
     factors.push({n:'品牌 · '+brand.split('（')[0],v:bF.rental});
-    // 货箱形式（飞翼/尾板/冷藏等）
-    const bdF=BODY_FACTOR[body]||{rental:1.0};
-    factors.push({n:'货箱形式 · '+body,v:bdF.rental,note:['飞翼厢式','冷藏','尾板车'].includes(body)?'专用车厢溢价':''});
+    // 货箱形式：若基准已精确命中该货箱行情（价格已含溢价），不再重复乘系数
+    if(!exactBody){
+      const bdF=BODY_FACTOR[body]||{rental:1.0};
+      factors.push({n:'货箱形式 · '+body+'（换算）',v:bdF.rental,note:'基准为其他货箱，按系数换算'});
+    }else{
+      factors.push({n:'货箱形式 · '+body,v:null,note:'基准已含该货箱溢价，不重复计价'});
+    }
     // 租期/司机/保险（个人车主直租通常不含这些服务，由用户选择叠加）
     const termV=parseFloat(document.getElementById('f_term').value);
     const driverV=parseFloat(document.getElementById('f_driver').value);
@@ -735,8 +733,12 @@ function calculate(){
     factors.push({n:'事故情况',v:accV});
     factors.push({n:'保养记录',v:maiV});
     factors.push({n:'改装情况',v:modV});
-    const bdF=BODY_FACTOR[body]||{sale:1.0};
-    factors.push({n:'货箱形式 · '+body,v:bdF.sale,note:['飞翼厢式','冷藏','尾板车'].includes(body)?'专用车厢溢价':''});
+    if(!exactBody){
+      const bdF=BODY_FACTOR[body]||{sale:1.0};
+      factors.push({n:'货箱形式 · '+body+'（换算）',v:bdF.sale,note:'基准为其他货箱，按系数换算'});
+    }else{
+      factors.push({n:'货箱形式 · '+body,v:null,note:'基准已含该货箱溢价，不重复计价'});
+    }
     const regionV=({'一线/沿海城市':1.0,'二三线城市':1.0,'内陆城市':0.96,
       '限行城市':(energy==='柴油'?0.92:1.04)})[region];
     factors.push({n:'区域市场',v:regionV});
@@ -795,6 +797,30 @@ function renderResult(d){
   }
   if(d.extraLine)advice+='<div style="margin-top:8px;font-size:12px;color:var(--muted)">'+d.extraLine+'</div>';
 
+  // 样本可靠性提示：样本过少时估值不确定性高
+  let reliability='';
+  if(d.hit.length<3){
+    reliability='<div class="chart-box"><div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:10px 13px;font-size:12px;color:#92400e">'+
+      '⚠️ <b>样本可靠性提示：</b>本次仅匹配到 <b>'+d.hit.length+'</b> 条行情，样本较少，估值区间可能偏窄或偏离真实市场。'+
+      '建议在「市场行情库」补充该车型的更多报价，或以「联网更新」的最新行情交叉参考。'+
+      '</div></div>';
+  }
+
+  // 异常诊断：当评估价超出行情区间，指出影响最大的因子
+  let diagnosis='';
+  if(vClass!=='v-mid'){
+    const sorted=d.factors.filter(f=>f.v!=null&&Math.abs(f.v-1)>0.005)
+      .sort((a,b)=>Math.abs(b.v-1)-Math.abs(a.v-1)).slice(0,3);
+    if(sorted.length){
+      const dir=vClass==='v-high'?'上浮':'下压';
+      const list=sorted.map(f=>f.n+'（×'+f.v.toFixed(2)+'）').join('、');
+      diagnosis='<div class="chart-box"><div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:12px;color:#374151">'+
+        '🔍 <b>差异来源分析：</b>评估价'+vText+'，主要受以下因子'+dir+'影响：<b>'+list+'</b>。'+
+        (vClass==='v-high'?'若认为报价偏高，可核对这些因子设置是否贴合实际（如区域、品牌溢价）。':'若认为估值偏低，可检查这些因子是否过度压低。')+
+        '</div></div>';
+    }
+  }
+
   let fRows='';
   d.factors.forEach(f=>{
     let cell='<span class="chip flat">基准</span>';
@@ -849,7 +875,7 @@ function renderResult(d){
       '</div>'+
     '</div>'+
     '<div class="advice">'+advice+'</div>'+
-    dualHtml+
+    reliability+diagnosis+dualHtml+
     '<div class="chart-box"><div class="chart-title">市场定位 · 评估价 vs 行情区间</div>'+rangeChart(d)+'</div>'+
     '<div class="chart-box"><div class="chart-title">因子影响分解（基准 → 评估价）</div>'+factorChart(d.factors)+'</div>'+
     '<div class="chart-box"><div class="chart-title">定价因子明细</div>'+
