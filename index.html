@@ -260,8 +260,13 @@
 
       <!-- sale factors -->
       <div class="card" id="saleFactors" style="display:none">
-        <h2><span class="dot" style="background:var(--amber)"></span>二手车定价因子（相对同龄行情基准的修正）</h2>
-        <p class="sub">基准已按车龄匹配同龄二手车成交价，此处仅对车况等差异做微调</p>
+        <h2><span class="dot" style="background:var(--amber)"></span>二手车定价因子（双轨估值）</h2>
+        <p class="sub">填写新车购买价可启用「新车折旧法」，与「市场行情法」交叉验证，估值更客观</p>
+        <div class="field">
+          <label>新车购买价（万元，含购置税上牌 · 强烈建议填写）</label>
+          <input type="number" id="f_newprice" placeholder="如：新车发票价+购置税，留空则仅用市场行情法" min="1" max="500" step="0.1">
+          <div class="hint">填入后系统会按该车实际购入价×能源残值率折旧，与市场成交价对照，两者互相印证更可靠</div>
+        </div>
         <div class="row2">
           <div class="field">
             <label>总里程（万公里）</label>
@@ -440,36 +445,41 @@ const SEED_MARKET = [
   {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:7.5,high:12.5,src:'多麦车/今日头条',note:'东风天锦9.6米厢式 国六 成交7.5-12.5万'},
   {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'高栏/仓栅',ageMin:0,ageMax:2,low:15,high:22,src:'多麦车成交',note:'解放JH6 9.6米高栏 21-22年 成交17-22万'},
   {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:5,high:10,src:'86货车网',note:'单桥平板 2016-2018年 5-10万'},
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:0,ageMax:2,low:28,high:42,src:'四川市场反馈',note:'9.6米新能源准新 280-350kWh 28-42万'},
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:3,ageMax:5,low:22,high:35,src:'K车网/程力',note:'二手纯电重卡成交22-23万'},
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'平板',ageMin:4,ageMax:8,low:12,high:28,src:'成都市场',note:'9.6米新能源二手 2019-2021年 12-25万'},
-  {u:'sale',cat:'9.6米单桥(4x2)',energy:'混动',body:'厢式',ageMin:3,ageMax:5,low:18,high:30,src:'行业行情估算',note:'混动车型二手车估算'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:0,ageMax:2,low:22,high:35,src:'四川市场/查博士',note:'9.6米新能源准新车：新车约38-50万×1-2年残值49-58%'},,
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:3,ageMax:5,low:13,high:22,src:'卡车之家/有驾',note:'3年纯电重卡残值约42.9%，新车40万级约16-18万'},,
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'平板',ageMin:4,ageMax:8,low:7,high:18,src:'成都市场/查博士',note:'电动轻卡5年残值20-28%，纯电重卡5年约26%'},,
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'混动',body:'厢式',ageMin:3,ageMax:5,low:14,high:24,src:'E-POWER/行业调研',note:'混动重卡3年残值约48%，介于柴油与纯电之间'},,
   {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',ageMin:3,ageMax:5,low:11,high:18,src:'梁山/郑州行情',note:'解放JH6 9.6米高栏 国六 3-5年 11-18万'},
   {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',ageMin:6,ageMax:12,low:5,high:10,src:'86货车网',note:'重汽豪瀚/解放 9.6米 2016-2018年 5-7万'},
   {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:14,high:24.5,src:'百度爱采购',note:'解放JH6前四后八9.6米平板 国五 约24.5万'},
-  {u:'sale',cat:'9.6米双桥(6x2)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:25,high:40,src:'行业行情估算',note:'双桥纯电二手估算'},
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:18,high:32,src:'行业调研',note:'双桥纯电2-5年，按残值率49%→26%换算'},,
   {u:'sale',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:17,high:25,src:'多麦车/梁山行情',note:'前四后八9.6米 国六 17-25万'},
-  {u:'sale',cat:'9.6米前四后八(8x4)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:32,high:50,src:'行业行情估算',note:'8x4纯电载货二手估算'},
+  {u:'sale',cat:'9.6米前四后八(8x4)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:24,high:40,src:'行业调研',note:'8x4纯电新车50-65万×残值率'},,
   {u:'sale',cat:'9.6米甩箱车',energy:'柴油',body:'厢式',ageMin:2,ageMax:5,low:12,high:20,src:'行业行情估算',note:'车厢可卸式二手，含液压机构'},
-  {u:'sale',cat:'9.6米甩箱车',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:22,high:38,src:'行业行情估算',note:'换电式车厢可卸载货车二手'},
+  {u:'sale',cat:'9.6米甩箱车',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:16,high:30,src:'行业调研',note:'换电式车厢可卸货车，按残值率换算'},,
   {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:2,ageMax:4,low:14,high:18,src:'梁山行情',note:'东风天龙KL牵引 国六 2-3年 14-18万'},
   {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:11,src:'梁山行情',note:'重汽豪沃牵引 双驱460 国五 3-4年 8-11万'},
   {u:'sale',cat:'17.5米大板',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:12,high:22,src:'行业行情估算',note:'17.5米大板二手车区间估算'},
   {u:'sale',cat:'49吨牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:18,src:'梁山/高安行情',note:'国六牵引车 3-5年 8-18万'},
-  {u:'sale',cat:'49吨牵引',energy:'纯电',body:'平板',ageMin:3,ageMax:5,low:25,high:45,src:'行业行情估算',note:'49吨纯电牵引二手车估算'},
-  {u:'sale',cat:'49吨牵引',energy:'氢燃料',body:'平板',ageMin:2,ageMax:5,low:40,high:80,src:'行业行情估算',note:'氢能重卡二手稀缺，残值不确定'},
+  {u:'sale',cat:'49吨牵引',energy:'纯电',body:'平板',ageMin:3,ageMax:5,low:20,high:38,src:'梁山市场/卡车之家',note:'二手新能源牵引1-5万km残值约新车7-8成；3年43%'},,
+  {u:'sale',cat:'49吨牵引',energy:'氢燃料',body:'平板',ageMin:2,ageMax:5,low:35,high:65,src:'IIM/东风T1调研',note:'氢能重卡3年残值约45%，5年30-35%，流通性低'},,
 ];
 
 /* ==================== 状态与存储 ==================== */
-const LS_KEY='truckValuation_market_v2';
-const LS_SIG='truckValuation_signals_v2';
+const LS_KEY='truckValuation_market_v3';
+const LS_SIG='truckValuation_signals_v3';
 let market=[];
 let signals=[];
 let remoteMeta=null;
 let mode='rental';
 
 function loadMarket(){
-  try{const raw=localStorage.getItem(LS_KEY);market=raw?JSON.parse(raw):JSON.parse(JSON.stringify(SEED_MARKET));}
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    market=raw?JSON.parse(raw):JSON.parse(JSON.stringify(SEED_MARKET));
+    market=market.filter(x=>x&&x.u); // 防御：剔除空/损坏条目
+    if(!market.length)market=JSON.parse(JSON.stringify(SEED_MARKET));
+  }
   catch(e){market=JSON.parse(JSON.stringify(SEED_MARKET));}
   try{const s=localStorage.getItem(LS_SIG);signals=s?JSON.parse(s):[];}catch(e){signals=[];}
   try{const m=localStorage.getItem(LS_KEY+'_meta');remoteMeta=m?JSON.parse(m):null;}catch(e){remoteMeta=null;}
@@ -563,6 +573,34 @@ const BODY_FACTOR={
 // 租赁公司相对个人车主的溢价系数（含保险/维保/票据/服务）
 const SOURCE_FACTOR={'private':1.0,'company':1.85};
 
+/* ==================== 新车价折旧法：分能源残值率曲线 ====================
+   数据依据（2026公开调研）：
+   - 柴油重卡：3年约60%，5年约29-50%（取中约40%）
+   - 纯电重卡：3年约42.9%（首批批量回流数据），5年20-28%；1年折旧40-50%
+   - 混动重卡：介于柴油与纯电，3年约48%，5年约38%
+   - 氢能重卡：3年约45%，5年30-35%
+   曲线采用分段线性插值，点越密越贴合实际陡降规律。
+*/
+const RESIDUAL_CURVE={
+  '柴油':{0:1.0,1:0.82,2:0.71,3:0.60,4:0.50,5:0.40,6:0.33,7:0.27,8:0.22,10:0.15,12:0.10},
+  '纯电':{0:1.0,1:0.58,2:0.49,3:0.43,4:0.35,5:0.26,6:0.20,7:0.16,8:0.12,10:0.08},
+  '混动':{0:1.0,1:0.72,2:0.58,3:0.48,4:0.43,5:0.38,6:0.32,7:0.27,8:0.22,10:0.15},
+  '氢燃料':{0:1.0,1:0.68,2:0.55,3:0.45,4:0.40,5:0.33,6:0.27,7:0.22,8:0.18,10:0.12},
+};
+function residualRate(age,energy){
+  const curve=RESIDUAL_CURVE[energy]||RESIDUAL_CURVE['柴油'];
+  const ks=Object.keys(curve).map(Number).sort((a,b)=>a-b);
+  if(age<=ks[0])return curve[ks[0]];
+  if(age>=ks[ks.length-1])return curve[ks[ks.length-1]];
+  for(let i=0;i<ks.length-1;i++){
+    if(age>=ks[i]&&age<=ks[i+1]){
+      const t=(age-ks[i])/(ks[i+1]-ks[i]);
+      return curve[ks[i]]*(1-t)+curve[ks[i+1]]*t;
+    }
+  }
+  return 0.1;
+}
+
 /* ==================== 行情匹配 ==================== */
 function matchRental(cat,energy,body){
   // 飞翼/尾板/自卸等若行情库无精确条目，回退到厢式基准（系数在BODY_FACTOR中体现）
@@ -631,6 +669,7 @@ function calculate(){
   const mBase=median(hit.map(x=>(x.low+x.high)/2));
 
   let factors=[], price, extraLine='';
+  let dual={active:false, marketPrice:0, newCarPrice:0, residualRate:0, newCar:0};
 
   if(mode==='rental'){
     factors.push({n:'基准月租（个人车主直租）',v:null,note:hit.length+' 条同类行情中位数 · 个人车主/不含司机油费'});
@@ -706,14 +745,31 @@ function calculate(){
       const sohV=0.7+0.3*(soh/100);
       factors.push({n:'电池健康度 SOH · '+soh+'%',v:sohV,note:'三电状态直接影响二手估值'});
     }
-    price=mBase*factors.filter(f=>f.v!=null).reduce((a,b)=>a*b.v,1);
+    // 轨道A：市场行情法
+    const adj=factors.filter(f=>f.v!=null).reduce((a,b)=>a*b.v,1);
+    const marketPrice=mBase*adj;
+    price=marketPrice;
+
+    // 轨道B：新车价折旧法（若填写新车购买价）
+    const newCar=parseFloat(document.getElementById('f_newprice').value);
+    if(newCar>0){
+      const rr=residualRate(age,energy);
+      // 新车折旧法只用"车况类"因子调整，不再重复叠加品牌（残值率曲线已含行业平均品牌水平）
+      let newAdj=1;
+      factors.forEach(f=>{if(f.v!=null&&!f.n.startsWith('品牌'))newAdj*=f.v;});
+      const newCarPrice=newCar*rr*newAdj;
+      dual={active:true,marketPrice:Math.round(marketPrice*100)/100,
+        newCarPrice:Math.round(newCarPrice*100)/100,residualRate:rr,newCar:newCar};
+      // 综合：市场法60% + 新车折旧法40%（市场法贴近当前成交，新车法锚定该车实际价值）
+      price=marketPrice*0.6+newCarPrice*0.4;
+    }
     price=Math.round(price*100)/100;
-    extraLine=(hit[0]&&hit[0].src)?'主参考来源：'+hit.map(x=>x.src).filter((v,i,a)=>a.indexOf(v)===i).join('、'):'';
+    extraLine=(hit[0]&&hit[0].src)?'市场法参考来源：'+hit.map(x=>x.src).filter((v,i,a)=>a.indexOf(v)===i).join('、'):'';
   }
 
   const lo=Math.round(price*(mode==='rental'?0.9:0.92)*100)/100;
   const hi=Math.round(price*(mode==='rental'?1.1:1.08)*100)/100;
-  renderResult({cat,energy,body,unit,price,lo,hi,mLow,mHigh,mBase,hit,factors,extraLine});
+  renderResult({cat,energy,body,unit,price,lo,hi,mLow,mHigh,mBase,hit,factors,extraLine,dual,age,energy});
 }
 
 /* ==================== 结果渲染 ==================== */
@@ -746,6 +802,37 @@ function renderResult(d){
     fRows+='<tr><td>'+f.n+'</td>'+(f.note?'<td style="color:var(--muted)">'+f.note+'</td>':'<td></td>')+'<td class="num">'+cell+'</td></tr>';
   });
 
+  // 双轨估值对比面板
+  let dualHtml='';
+  if(mode==='sale'){
+    if(d.dual.active){
+      const gap=d.dual.marketPrice-d.dual.newCarPrice;
+      const gapPct=d.dual.newCarPrice>0?(gap/d.dual.newCarPrice*100):0;
+      dualHtml='<div class="chart-box"><div class="chart-title">双轨估值交叉验证</div>'+
+        '<div style="background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:14px">'+
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">'+
+          '<div><div style="font-size:11px;color:var(--muted)">市场行情法</div>'+
+            '<div style="font-size:20px;font-weight:700;color:var(--primary)">'+d.dual.marketPrice.toFixed(2)+'</div>'+
+            '<div style="font-size:10.5px;color:var(--muted)">同龄成交价修正</div></div>'+
+          '<div><div style="font-size:11px;color:var(--muted)">新车折旧法</div>'+
+            '<div style="font-size:20px;font-weight:700;color:var(--teal)">'+d.dual.newCarPrice.toFixed(2)+'</div>'+
+            '<div style="font-size:10.5px;color:var(--muted)">新车价 '+d.dual.newCar+'万 × 残值率 '+(d.dual.residualRate*100).toFixed(1)+'%</div></div>'+
+          '<div style="background:#eff6ff;border-radius:8px;padding:6px"><div style="font-size:11px;color:var(--muted)">综合估值</div>'+
+            '<div style="font-size:20px;font-weight:800;color:var(--primary-2)">'+d.price.toFixed(2)+'</div>'+
+            '<div style="font-size:10.5px;color:var(--muted)">市场6 : 新车4</div></div>'+
+        '</div>'+
+        '<div style="margin-top:12px;font-size:12px;color:#374151;border-top:1px dashed var(--border);padding-top:10px">'+
+          '两法差异 <b style="color:'+(Math.abs(gapPct)>20?'#d97706':'#16a34a')+'">'+Math.abs(gapPct).toFixed(0)+'%</b>'+
+          '（'+(Math.abs(gapPct)>20?'差异较大，建议核验车况或新车价是否准确':'两种方法接近，估值可信度较高')+'）。'+
+          '残值率依据：'+d.energy+'车 '+d.age+' 年约 '+(d.dual.residualRate*100).toFixed(1)+'%（行业调研数据）。'+
+        '</div></div></div>';
+    }else{
+      dualHtml='<div class="chart-box"><div style="background:#eff6ff;border-radius:8px;padding:10px 13px;font-size:12px;color:#1e40af">'+
+        '💡 在左侧填写<b>新车购买价</b>，可启用「新车折旧法」与当前「市场行情法」交叉验证，估值更客观。'+
+        '</div></div>';
+    }
+  }
+
   document.getElementById('resultContent').innerHTML=
     '<div class="price-hero">'+
       '<div class="hero-main">'+
@@ -762,6 +849,7 @@ function renderResult(d){
       '</div>'+
     '</div>'+
     '<div class="advice">'+advice+'</div>'+
+    dualHtml+
     '<div class="chart-box"><div class="chart-title">市场定位 · 评估价 vs 行情区间</div>'+rangeChart(d)+'</div>'+
     '<div class="chart-box"><div class="chart-title">因子影响分解（基准 → 评估价）</div>'+factorChart(d.factors)+'</div>'+
     '<div class="chart-box"><div class="chart-title">定价因子明细</div>'+
