@@ -135,12 +135,13 @@
           <div class="field">
             <label>车型规格</label>
             <select id="f_cat">
-              <option>9.6米4x2</option>
-              <option>9.6米6x2</option>
-              <option>9.6米8x4</option>
-              <option>13米牵引</option>
-              <option>17.5米大板</option>
-              <option>49吨牵引</option>
+              <option value="9.6米单桥(4x2)">9.6米单桥(4x2)</option>
+              <option value="9.6米双桥(6x2)">9.6米双桥(6x2)</option>
+              <option value="9.6米前四后八(8x4)">9.6米前四后八(8x4)</option>
+              <option value="9.6米甩箱车">9.6米甩箱车(车厢可卸)</option>
+              <option value="13米牵引">13米牵引</option>
+              <option value="17.5米大板">17.5米大板</option>
+              <option value="49吨牵引">49吨牵引</option>
             </select>
           </div>
           <div class="field">
@@ -335,7 +336,8 @@
       <div class="mini-form">
         <div><label>用途</label><select id="m_u"><option value="rental">租赁(元/月)</option><option value="sale">二手车(万元)</option></select></div>
         <div><label>车型</label><select id="m_cat">
-          <option>9.6米4x2</option><option>9.6米6x2</option><option>9.6米8x4</option>
+          <option>9.6米单桥(4x2)</option><option>9.6米双桥(6x2)</option>
+          <option>9.6米前四后八(8x4)</option><option>9.6米甩箱车</option>
           <option>13米牵引</option><option>17.5米大板</option><option>49吨牵引</option></select></div>
         <div><label>能源</label><select id="m_energy"><option>柴油</option><option>纯电</option><option>氢燃料</option><option>混动</option></select></div>
         <div><label>货箱</label><select id="m_body"><option>厢式</option><option>高栏/仓栅</option><option>平板</option><option>冷藏</option></select></div>
@@ -380,37 +382,60 @@
    ageMin/ageMax: 二手车对应的车龄区间（租赁忽略）
 */
 const SEED_MARKET = [
-  // ------ 租赁 rental：元/月 ------
-  {u:'rental',cat:'9.6米4x2',energy:'柴油',body:'厢式',low:15000,high:22000,src:'百度爱采购百科',note:'9.6米厢车月租15000-22000'},
-  {u:'rental',cat:'9.6米4x2',energy:'柴油',body:'高栏/仓栅',low:13000,high:16000,src:'百度爱采购百科',note:'9.6米高栏 日租550-700 月租13000-16000'},
-  {u:'rental',cat:'9.6米4x2',energy:'柴油',body:'平板',low:8000,high:12000,src:'百度爱采购',note:'9.6米平板 月租8000-12000'},
-  {u:'rental',cat:'9.6米6x2',energy:'柴油',body:'厢式',low:15000,high:18258,src:'佳豪鑫/潮州物流',note:'带司机月租15473-18258，纯租日租约1170-1180'},
-  {u:'rental',cat:'9.6米6x2',energy:'柴油',body:'高栏/仓栅',low:13000,high:17000,src:'惠州物流行情',note:'9.6米厢/高栏带司机月租约15473'},
-  {u:'rental',cat:'9.6米8x4',energy:'柴油',body:'厢式',low:18000,high:24000,src:'行业行情估算',note:'前四后八载货月租上浮'},
-  {u:'rental',cat:'13米牵引',energy:'柴油',body:'平板',low:25800,high:26800,src:'佳豪鑫物流',note:'13米平板带司机月租25800-26800'},
-  {u:'rental',cat:'17.5米大板',energy:'柴油',body:'平板',low:38598,high:40532,src:'佳豪鑫物流',note:'17.5米大板带司机月租38598-40532'},
-  {u:'rental',cat:'49吨牵引',energy:'柴油',body:'平板',low:20000,high:30000,src:'行业行情估算',note:'49吨柴油牵引月租估算'},
-  {u:'rental',cat:'9.6米4x2',energy:'纯电',body:'厢式',low:19000,high:26000,src:'百度爱采购/行业调研',note:'限行城市新能源货车租金溢价约30%'},
-  {u:'rental',cat:'9.6米4x2',energy:'氢燃料',body:'厢式',low:22000,high:30000,src:'示范城市行情估算',note:'氢能重卡租赁多在示范城市，路权/补贴溢价'},
-  {u:'rental',cat:'9.6米4x2',energy:'混动',body:'厢式',low:17000,high:23000,src:'行业行情估算',note:'混动介于柴油与纯电之间'},
+  // ------ 租赁 rental：元/月（口径=纯租车，不含司机/油费；参考中邮招标12600元/月） ------
+  // 9.6米单桥(4x2)
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',low:10500,high:14500,src:'中邮招标/爱采购',note:'纯租车口径：中邮招标12600；爱采购9.6米高栏13000-16000'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'高栏/仓栅',low:10000,high:14000,src:'百度爱采购百科',note:'日租550-700，月租约10000-14000（纯租）'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'平板',low:8000,high:12000,src:'百度爱采购',note:'9.6米平板 月租8000-12000'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'柴油',body:'冷藏',low:13000,high:18000,src:'行业行情估算',note:'冷藏车含冷机，租金高于普通厢式'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',low:13000,high:19000,src:'行业调研',note:'纯电租金较柴油高，限行城市路权溢价'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'氢燃料',body:'厢式',low:16000,high:24000,src:'示范城市估算',note:'氢能重卡租赁多在示范城市'},
+  {u:'rental',cat:'9.6米单桥(4x2)',energy:'混动',body:'厢式',low:12000,high:17000,src:'行业行情估算',note:'混动介于柴油与纯电之间'},
+  // 9.6米双桥(6x2)
+  {u:'rental',cat:'9.6米双桥(6x2)',energy:'柴油',body:'厢式',low:13000,high:18000,src:'惠州/潮州物流',note:'纯租日租约1010-1180，月租折算约13000-18000'},
+  {u:'rental',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',low:13000,high:17000,src:'惠州物流行情',note:'双桥承载更强，租金略高'},
+  {u:'rental',cat:'9.6米双桥(6x2)',energy:'纯电',body:'厢式',low:16000,high:22000,src:'行业调研',note:'双桥纯电载货'},
+  // 9.6米前四后八(8x4)
+  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'厢式',low:16000,high:22000,src:'行业行情估算',note:'前四后八重载，月租上浮'},
+  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'高栏/仓栅',low:16000,high:22000,src:'行业行情估算',note:'前四后八高栏'},
+  {u:'rental',cat:'9.6米前四后八(8x4)',energy:'纯电',body:'厢式',low:19000,high:26000,src:'行业行情估算',note:'8x4纯电载货'},
+  // 9.6米甩箱车（车厢可卸式）
+  {u:'rental',cat:'9.6米甩箱车',energy:'柴油',body:'厢式',low:12000,high:17000,src:'行业行情估算',note:'车厢可卸式，含液压/拉钩机构，租金较普通厢式略高'},
+  {u:'rental',cat:'9.6米甩箱车',energy:'纯电',body:'厢式',low:15000,high:21000,src:'换电车型行情',note:'换电式车厢可卸载货车'},
+  // 牵引/大板（纯租车口径，剔除带司机溢价）
+  {u:'rental',cat:'13米牵引',energy:'柴油',body:'平板',low:16000,high:22000,src:'佳豪鑫/行业估算',note:'带司机约26000，纯租估16000-22000'},
+  {u:'rental',cat:'17.5米大板',energy:'柴油',body:'平板',low:22000,high:30000,src:'佳豪鑫/行业估算',note:'带司机约38598，纯租估22000-30000'},
+  {u:'rental',cat:'49吨牵引',energy:'柴油',body:'平板',low:15000,high:22000,src:'行业行情估算',note:'49吨柴油牵引纯租估算'},
+  {u:'rental',cat:'49吨牵引',energy:'纯电',body:'平板',low:20000,high:30000,src:'行业行情估算',note:'49吨纯电牵引纯租估算'},
+  {u:'rental',cat:'49吨牵引',energy:'氢燃料',body:'平板',low:25000,high:38000,src:'示范城市估算',note:'氢能重卡租赁'},
   // ------ 二手车售卖 sale：万元（实际成交价，按车龄档） ------
-  {u:'sale',cat:'9.6米4x2',energy:'柴油',body:'厢式',ageMin:0,ageMax:2,low:13,high:19.7,src:'天天拍车',note:'J6L 260马力9.6米厢式准新约14.86万；飞翼19.69万'},
-  {u:'sale',cat:'9.6米4x2',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:7.5,high:12.5,src:'多麦车/今日头条',note:'东风天锦9.6米厢式 国六 成交7.5-12.5万'},
-  {u:'sale',cat:'9.6米4x2',energy:'柴油',body:'高栏/仓栅',ageMin:0,ageMax:2,low:15,high:22,src:'多麦车成交',note:'解放JH6 9.6米高栏 21-22年 成交17-22万'},
-  {u:'sale',cat:'9.6米6x2',energy:'柴油',body:'高栏/仓栅',ageMin:3,ageMax:5,low:11,high:18,src:'梁山/郑州行情',note:'解放JH6 9.6米高栏 国六 3-5年 11-18万'},
-  {u:'sale',cat:'9.6米6x2',energy:'柴油',body:'高栏/仓栅',ageMin:6,ageMax:12,low:5,high:10,src:'86货车网',note:'重汽豪瀚/解放 9.6米 2016-2018年 5-7万'},
-  {u:'sale',cat:'9.6米6x2',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:14,high:24.5,src:'百度爱采购',note:'解放JH6前四后八9.6米平板 国五 约24.5万'},
-  {u:'sale',cat:'9.6米8x4',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:17,high:25,src:'多麦车/梁山行情',note:'前四后八9.6米 高栏/平板 国六 17-25万'},
+  // 9.6米单桥(4x2)
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',ageMin:0,ageMax:2,low:13,high:19.7,src:'天天拍车',note:'J6L 260马力9.6米厢式准新约14.86万；飞翼19.69万'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:7.5,high:12.5,src:'多麦车/今日头条',note:'东风天锦9.6米厢式 国六 成交7.5-12.5万'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'高栏/仓栅',ageMin:0,ageMax:2,low:15,high:22,src:'多麦车成交',note:'解放JH6 9.6米高栏 21-22年 成交17-22万'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:5,high:10,src:'86货车网',note:'单桥平板 2016-2018年 5-10万'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:0,ageMax:2,low:28,high:42,src:'四川市场反馈',note:'9.6米新能源准新 280-350kWh 28-42万'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'厢式',ageMin:3,ageMax:5,low:22,high:35,src:'K车网/程力',note:'二手纯电重卡成交22-23万；电动冷藏车2022款32-35万'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'纯电',body:'平板',ageMin:4,ageMax:8,low:12,high:28,src:'成都市场',note:'9.6米新能源二手 2019-2021年 12-25万'},
+  {u:'sale',cat:'9.6米单桥(4x2)',energy:'混动',body:'厢式',ageMin:3,ageMax:5,low:18,high:30,src:'行业行情估算',note:'混动车型二手车估算'},
+  // 9.6米双桥(6x2)
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',ageMin:3,ageMax:5,low:11,high:18,src:'梁山/郑州行情',note:'解放JH6 9.6米高栏 国六 3-5年 11-18万'},
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'高栏/仓栅',ageMin:6,ageMax:12,low:5,high:10,src:'86货车网',note:'重汽豪瀚/解放 9.6米 2016-2018年 5-7万'},
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:14,high:24.5,src:'百度爱采购',note:'解放JH6前四后八9.6米平板 国五 约24.5万'},
+  {u:'sale',cat:'9.6米双桥(6x2)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:25,high:40,src:'行业行情估算',note:'双桥纯电二手估算'},
+  // 9.6米前四后八(8x4)
+  {u:'sale',cat:'9.6米前四后八(8x4)',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:17,high:25,src:'多麦车/梁山行情',note:'前四后八9.6米 高栏/平板 国六 17-25万'},
+  {u:'sale',cat:'9.6米前四后八(8x4)',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:32,high:50,src:'行业行情估算',note:'8x4纯电载货二手估算'},
+  // 9.6米甩箱车
+  {u:'sale',cat:'9.6米甩箱车',energy:'柴油',body:'厢式',ageMin:2,ageMax:5,low:12,high:20,src:'行业行情估算',note:'车厢可卸式二手，含液压机构，较普通厢式略高'},
+  {u:'sale',cat:'9.6米甩箱车',energy:'纯电',body:'厢式',ageMin:2,ageMax:5,low:22,high:38,src:'行业行情估算',note:'换电式车厢可卸载货车二手估算'},
+  // 牵引/大板
   {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:2,ageMax:4,low:14,high:18,src:'梁山行情',note:'东风天龙KL牵引 国六 2-3年 14-18万'},
   {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:11,src:'梁山行情',note:'重汽豪沃牵引 双驱460 国五 3-4年 8-11万'},
   {u:'sale',cat:'17.5米大板',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:12,high:22,src:'行业行情估算',note:'17.5米大板二手车区间估算'},
   {u:'sale',cat:'49吨牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:18,src:'梁山/高安行情',note:'国六牵引车 3-5年 8-18万'},
-  {u:'sale',cat:'9.6米4x2',energy:'纯电',body:'厢式',ageMin:0,ageMax:2,low:28,high:42,src:'四川市场反馈',note:'9.6米新能源准新 280-350kWh 28-42万'},
-  {u:'sale',cat:'9.6米4x2',energy:'纯电',body:'厢式',ageMin:3,ageMax:5,low:22,high:35,src:'K车网/程力',note:'二手纯电重卡成交22-23万；电动冷藏车2022款32-35万'},
-  {u:'sale',cat:'9.6米4x2',energy:'纯电',body:'平板',ageMin:4,ageMax:8,low:12,high:28,src:'成都市场',note:'9.6米新能源二手 2019-2021年 12-25万'},
   {u:'sale',cat:'49吨牵引',energy:'纯电',body:'平板',ageMin:3,ageMax:5,low:25,high:45,src:'行业行情估算',note:'49吨纯电牵引二手车估算'},
   {u:'sale',cat:'49吨牵引',energy:'氢燃料',body:'平板',ageMin:2,ageMax:5,low:40,high:80,src:'行业行情估算',note:'氢能重卡二手稀缺，残值不确定，仅供参考'},
-  {u:'sale',cat:'9.6米4x2',energy:'混动',body:'厢式',ageMin:3,ageMax:5,low:18,high:30,src:'行业行情估算',note:'混动车型二手车估算'},
 ];
 
 /* ==================== 状态与存储 ==================== */
@@ -537,12 +562,13 @@ function calculate(){
   let factors=[], price, extraLine='';
 
   if(mode==='rental'){
-    factors.push({n:'市场基准月租',v:null,note:hit.length+' 条同类行情中位数'});
-    let regionV=({'一线/沿海城市':1.18,'二三线城市':1.0,'内陆城市':0.88,
-      '限行城市':(energy==='柴油'?0.92:1.22)})[region];
+    factors.push({n:'市场基准月租（纯租车口径）',v:null,note:hit.length+' 条同类行情中位数 · 不含司机/油费'});
+    let regionV=({'一线/沿海城市':1.08,'二三线城市':1.0,'内陆城市':0.9,
+      '限行城市':(energy==='柴油'?0.92:1.15)})[region];
     factors.push({n:'区域市场 · '+region,v:regionV,note:energy!=='柴油'&&region==='限行城市'?'新能源路权溢价':(energy==='柴油'&&region==='限行城市'?'柴油限行折价':'')});
-    let ageV=age<=1?1.15:age<=3?1.0:age<=5?0.92:0.82;
-    factors.push({n:'车龄 · '+age+'年',v:ageV,note:age<=1?'准新车溢价':''});
+    // 基准以1年内新车为准（中邮招标口径），车越老租金越低
+    let ageV=age<=1?1.0:age<=3?0.9:age<=5?0.8:0.68;
+    factors.push({n:'车龄 · '+age+'年',v:ageV,note:age<=1?'新车基准':'较新车折旧'});
     let brandV=brand.startsWith('主流')?1.0:brand.startsWith('二线')?0.94:0.85;
     factors.push({n:'品牌档次',v:brandV,note:brand.startsWith('主流')?'市场主流基准':''});
     const termV=parseFloat(document.getElementById('f_term').value);
