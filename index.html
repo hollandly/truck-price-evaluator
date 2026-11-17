@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>货车二手车 / 租赁价格评估系统 · 9.6米以上车型</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚚</text></svg>">
+<style>
+  :root{
+    --bg:#f4f6fa; --card:#ffffff; --primary:#2563eb; --primary-2:#1e40af;
+    --teal:#0d9488; --text:#1f2937; --muted:#6b7280; --border:#e5e7eb;
+    --red:#dc2626; --green:#16a34a; --amber:#d97706; --shadow:0 6px 24px rgba(16,24,40,.07);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  header{background:linear-gradient(135deg,#1e40af,#2563eb 55%,#0d9488);color:#fff;padding:22px 28px}
+  header h1{margin:0;font-size:21px;font-weight:700;letter-spacing:.3px}
+  header p{margin:6px 0 0;font-size:12.5px;opacity:.9}
+  .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
+    padding:2px 9px;border-radius:20px;font-size:11px;margin-left:8px;vertical-align:middle}
+  .wrap{max-width:1440px;margin:0 auto;padding:22px 28px 60px}
+  .toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+  .tabs{display:flex;background:#e8edf5;border-radius:10px;padding:4px}
+  .tab{border:0;background:transparent;padding:9px 22px;border-radius:7px;cursor:pointer;font-size:14px;
+    font-weight:600;color:var(--muted);transition:.15s}
+  .tab.active{background:#fff;color:var(--primary);box-shadow:0 2px 8px rgba(16,24,40,.1)}
+  .actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  button.btn{border:0;border-radius:8px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+  .btn-ghost{background:#fff;color:var(--primary);border:1px solid #cbd7ea}
+  .btn-ghost:hover{background:#f0f5ff}
+  .btn-update{background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff}
+  .btn-update:hover{filter:brightness(1.08)}
+  .btn-update:disabled{opacity:.6;cursor:wait}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{background:var(--primary-2)}
+  .stamp{font-size:11.5px;color:var(--muted);background:#fff;border:1px solid var(--border);padding:6px 11px;border-radius:8px}
+  .stamp b{color:var(--teal)}
+  .grid{display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start}
+  @media(max-width:1000px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:20px 22px;margin-bottom:18px}
+  .card h2{font-size:15px;margin:0 0 4px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .card h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--primary);display:inline-block}
+  .card .sub{font-size:11.5px;color:var(--muted);margin:0 0 16px}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:600}
+  .field select,.field input{width:100%;padding:9px 11px;border:1px solid #d8dfeb;border-radius:8px;
+    font-size:13.5px;background:#fff;color:var(--text);outline:none;transition:.15s}
+  .field select:focus,.field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .hint{font-size:11px;color:var(--muted);margin-top:4px}
+  .calc-btn{width:100%;padding:13px;font-size:15px;margin-top:6px}
+  .price-hero{display:flex;gap:18px;align-items:stretch;flex-wrap:wrap}
+  .hero-main{flex:1;min-width:220px;background:linear-gradient(135deg,#eff6ff,#f0fdfa);border:1px solid #dbeafe;
+    border-radius:12px;padding:18px 20px}
+  .hero-main .lbl{font-size:12px;color:var(--muted)}
+  .hero-main .price{font-size:36px;font-weight:800;color:var(--primary-2);line-height:1.2;margin:4px 0}
+  .hero-main .price small{font-size:15px;font-weight:600;color:var(--muted)}
+  .hero-main .range{font-size:13px;color:#374151}
+  .hero-side{flex:1;min-width:220px;display:flex;flex-direction:column;justify-content:center}
+  .stat{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border);font-size:13px}
+  .stat:last-child{border-bottom:0}
+  .stat b{font-weight:700}
+  .verdict{display:inline-block;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:700;margin:6px 0}
+  .v-high{background:#fee2e2;color:var(--red)}
+  .v-mid{background:#dcfce7;color:var(--green)}
+  .v-low{background:#fef3c7;color:var(--amber)}
+  .advice{background:#f8fafc;border-left:3px solid var(--teal);padding:12px 14px;border-radius:0 8px 8px 0;
+    font-size:13px;color:#374151;margin-top:12px}
+  .advice b{color:var(--teal)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+  th{background:#f8fafc;color:var(--muted);font-weight:600;font-size:11.5px}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .chip{display:inline-block;padding:1px 8px;border-radius:6px;font-size:11px;font-weight:600}
+  .chip.up{background:#fee2e2;color:var(--red)}
+  .chip.down{background:#dcfce7;color:var(--green)}
+  .chip.flat{background:#f1f5f9;color:var(--muted)}
+  .chart-box{margin-top:8px}
+  .chart-title{font-size:12.5px;font-weight:600;color:#374151;margin-bottom:8px}
+  .sig-item{padding:10px 0;border-bottom:1px dashed var(--border)}
+  .sig-item:last-child{border-bottom:0}
+  .sig-meta{font-size:11px;color:var(--muted);margin-bottom:3px}
+  .sig-meta a{color:var(--primary);text-decoration:none}
+  .sig-text{font-size:12.5px;color:#374151}
+  .overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;padding:24px;z-index:50}
+  .overlay.show{display:flex}
+  .modal{background:#fff;border-radius:14px;width:100%;max-width:1120px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column}
+  .modal-hd{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  .modal-hd h3{margin:0;font-size:17px}
+  .modal-bd{padding:18px 22px;overflow:auto}
+  .modal-ft{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+  .x{background:none;border:0;font-size:24px;cursor:pointer;color:var(--muted);line-height:1}
+  .mini-form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;background:#f8fafc;padding:14px;border-radius:10px;margin-bottom:16px}
+  .mini-form input,.mini-form select{padding:7px 9px;border:1px solid #d8dfeb;border-radius:7px;font-size:12.5px;width:100%}
+  .mini-form label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px}
+  .del{color:var(--red);background:none;border:0;cursor:pointer;font-size:12px}
+  .note-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;font-size:12px;color:#92400e;margin-top:14px}
+  .note-box b{color:#b45309}
+  .src{font-size:11px;color:var(--muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .empty{padding:40px;text-align:center;color:var(--muted)}
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;
+    padding:12px 20px;border-radius:10px;font-size:13px;z-index:100;box-shadow:0 8px 30px rgba(0,0,0,.2);display:none}
+  .toast.show{display:block}
+</style>
+</head>
+<body>
+<header>
+  <h1>货车二手车 / 租赁价格评估系统 <span class="badge">9.6 米以上主力车型</span></h1>
+  <p>二手车售卖 + 车辆租赁双模式 · 二手车成交价直接定价 · 多因子修正 · 联网行情对比决策 · 柴油 / 纯电 / 氢燃料 / 混动</p>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <div class="tabs">
+      <button class="tab active" id="tabRental" onclick="setMode('rental')">租赁价格评估</button>
+      <button class="tab" id="tabSale" onclick="setMode('sale')">二手车售卖评估</button>
+    </div>
+    <div class="actions">
+      <span class="stamp" id="dataStamp"></span>
+      <button class="btn btn-update" id="btnUpdate" onclick="updateFromRemote()">🔄 更新行情</button>
+      <button class="btn btn-ghost" onclick="openMarket()">📊 市场行情库</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- ============ INPUT ============ -->
+    <div>
+      <div class="card">
+        <h2><span class="dot"></span>车辆基础信息</h2>
+        <p class="sub">选定车型与能源形式，系统将匹配对应的市场行情作为定价基准</p>
+
+        <div class="row2">
+          <div class="field">
+            <label>车型规格</label>
+            <select id="f_cat">
+              <option>9.6米4x2</option>
+              <option>9.6米6x2</option>
+              <option>9.6米8x4</option>
+              <option>13米牵引</option>
+              <option>17.5米大板</option>
+              <option>49吨牵引</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>能源类型</label>
+            <select id="f_energy" onchange="onEnergyChange()">
+              <option>柴油</option>
+              <option>纯电</option>
+              <option>氢燃料</option>
+              <option>混动</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>货箱形式</label>
+            <select id="f_body">
+              <option>厢式</option>
+              <option>高栏/仓栅</option>
+              <option>平板</option>
+              <option>冷藏</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>区域市场</label>
+            <select id="f_region">
+              <option>一线/沿海城市</option>
+              <option selected>二三线城市</option>
+              <option>内陆城市</option>
+              <option>限行城市</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>品牌档次</label>
+          <select id="f_brand">
+            <option>主流一线（解放/东风/重汽/福田）</option>
+            <option>二线（陕汽/江淮/柳汽/远程）</option>
+            <option>其他品牌</option>
+          </select>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>车龄（年）</label>
+            <input type="number" id="f_age" value="3" min="0" max="20" step="0.5">
+          </div>
+          <div class="field" id="batteryField" style="display:none">
+            <label>电池容量（kWh）</label>
+            <input type="number" id="f_battery" value="282" min="50" max="700" step="1">
+          </div>
+        </div>
+      </div>
+
+      <!-- rental factors -->
+      <div class="card" id="rentalFactors">
+        <h2><span class="dot" style="background:var(--teal)"></span>租赁定价因子</h2>
+        <p class="sub">租期、司机、保险等会显著影响实际租金</p>
+        <div class="row2">
+          <div class="field">
+            <label>租赁期限</label>
+            <select id="f_term">
+              <option value="1">月租</option>
+              <option value="0.9">季租</option>
+              <option value="0.85">半年租</option>
+              <option value="0.8">年租</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>是否带司机</label>
+            <select id="f_driver">
+              <option value="1">不带司机（纯租车）</option>
+              <option value="1.45">带司机</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>保险方案</label>
+            <select id="f_insurance">
+              <option value="1">基础险</option>
+              <option value="1.08">全险</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>尾板配置</label>
+            <select id="f_taillift">
+              <option value="1">无</option>
+              <option value="1.03">有尾板</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>租赁时节</label>
+          <select id="f_season">
+            <option value="1">平季</option>
+            <option value="1.22">旺季（双11/年前）</option>
+            <option value="0.9">淡季（春节后）</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- sale factors -->
+      <div class="card" id="saleFactors" style="display:none">
+        <h2><span class="dot" style="background:var(--amber)"></span>二手车定价因子（相对同龄行情基准的修正）</h2>
+        <p class="sub">基准已按车龄匹配同龄二手车成交价，此处仅对车况等差异做微调</p>
+        <div class="row2">
+          <div class="field">
+            <label>总里程（万公里）</label>
+            <input type="number" id="f_mileage" value="45" min="0" max="300" step="1">
+          </div>
+          <div class="field">
+            <label>排放标准</label>
+            <select id="f_emission">
+              <option value="1.04">国六b</option>
+              <option value="1">国六a</option>
+              <option value="0.9">国五</option>
+              <option value="0.75">国四及以下</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>车况等级</label>
+            <select id="f_condition">
+              <option value="1.08">优秀（原版原漆/无大修）</option>
+              <option value="1" selected>良好</option>
+              <option value="0.9">一般</option>
+              <option value="0.78">较差</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>事故情况</label>
+            <select id="f_accident">
+              <option value="1">无事故</option>
+              <option value="0.95">轻微剐蹭</option>
+              <option value="0.8">结构/大梁事故</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>保养记录</label>
+            <select id="f_maintenance">
+              <option value="1.04">完整（4S/平台记录）</option>
+              <option value="1" selected>部分</option>
+              <option value="0.96">无记录</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>改装情况</label>
+            <select id="f_mod">
+              <option value="1">无改装</option>
+              <option value="1.06">合法专用上装（冷链/尾板）</option>
+              <option value="0.8">非法改装</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" id="sohField" style="display:none">
+          <label>电池健康度 SOH（%）</label>
+          <input type="number" id="f_soh" value="85" min="40" max="100" step="1">
+        </div>
+      </div>
+
+      <button class="btn btn-primary calc-btn" onclick="calculate()">开始评估</button>
+    </div>
+
+    <!-- ============ RESULT ============ -->
+    <div id="resultPanel">
+      <div class="card">
+        <h2><span class="dot"></span>评估结果</h2>
+        <p class="sub" id="resultSub">填写左侧参数后点击「开始评估」</p>
+        <div id="resultContent">
+          <div class="empty">暂无评估结果</div>
+        </div>
+      </div>
+      <div class="card">
+        <h2><span class="dot" style="background:var(--teal)"></span>联网抓取的最新市场报价</h2>
+        <p class="sub" id="signalSub">由 GitHub Actions 定期抓取，点击右上角「更新行情」刷新</p>
+        <div id="signalList"><div class="empty">暂无联网行情，点击「更新行情」加载</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MARKET MODAL ============ -->
+<div class="overlay" id="marketOverlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3>市场行情库 <span style="font-size:12px;color:var(--muted);font-weight:400">评估基准与对比来源 · 可维护</span></h3>
+      <button class="x" onclick="closeMarket()">&times;</button>
+    </div>
+    <div class="modal-bd">
+      <div class="mini-form">
+        <div><label>用途</label><select id="m_u"><option value="rental">租赁(元/月)</option><option value="sale">二手车(万元)</option></select></div>
+        <div><label>车型</label><select id="m_cat">
+          <option>9.6米4x2</option><option>9.6米6x2</option><option>9.6米8x4</option>
+          <option>13米牵引</option><option>17.5米大板</option><option>49吨牵引</option></select></div>
+        <div><label>能源</label><select id="m_energy"><option>柴油</option><option>纯电</option><option>氢燃料</option><option>混动</option></select></div>
+        <div><label>货箱</label><select id="m_body"><option>厢式</option><option>高栏/仓栅</option><option>平板</option><option>冷藏</option></select></div>
+        <div><label>低价</label><input type="number" id="m_low" placeholder="下限"></div>
+        <div><label>高价</label><input type="number" id="m_high" placeholder="上限"></div>
+        <div><label>车龄(起)</label><input type="number" id="m_ageMin" value="0" placeholder="二手车用"></div>
+        <div><label>车龄(止)</label><input type="number" id="m_ageMax" value="5" placeholder="二手车用"></div>
+        <div><label>来源</label><input type="text" id="m_src" placeholder="如：卡车之家"></div>
+        <div><label>日期/备注</label><input type="text" id="m_note" placeholder="如：2026 行情"></div>
+      </div>
+      <button class="btn btn-primary" onclick="addMarket()" style="margin-bottom:16px">+ 添加行情条目</button>
+      <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <select id="m_filter" onchange="renderMarketTable()" style="padding:7px 10px;border:1px solid #d8dfeb;border-radius:7px">
+          <option value="all">全部用途</option><option value="rental">仅租赁</option><option value="sale">仅二手车</option>
+        </select>
+        <span style="font-size:12px;color:var(--muted);align-self:center" id="m_count"></span>
+      </div>
+      <table>
+        <thead><tr><th>用途</th><th>车型</th><th>能源</th><th>货箱</th><th>车龄</th><th class="num">低价</th><th class="num">高价</th><th>来源</th><th>备注</th><th></th></tr></thead>
+        <tbody id="marketTbody"></tbody>
+      </table>
+      <div class="note-box">
+        <b>关于数据：</b>行情库内置的是联网采集的公开市场快照（来源含卡车之家、天天拍车、百度爱采购、梁山/高安等市场行情、行业调研报告等）。
+        点击右上角「🔄 更新行情」可从 GitHub 仓库读取由定时任务抓取的最新报价。<b>二手车售卖采用同龄二手车实际成交价作基准</b>，比"新车价×折旧率"更贴近真实市场。
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="exportMarket()">导出 JSON</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()">导入 JSON</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importMarket(event)">
+      <button class="btn btn-ghost" onclick="resetMarket()">恢复默认行情</button>
+      <button class="btn btn-primary" onclick="closeMarket()">完成</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==================== 内置市场行情快照（联网采集） ====================
+   u: rental=租赁月租(元/月) | sale=二手车成交价(万元)
+   ageMin/ageMax: 二手车对应的车龄区间（租赁忽略）
+*/
+const SEED_MARKET = [
+  // ------ 租赁 rental：元/月 ------
+  {u:'rental',cat:'9.6米4x2',energy:'柴油',body:'厢式',low:15000,high:22000,src:'百度爱采购百科',note:'9.6米厢车月租15000-22000'},
+  {u:'rental',cat:'9.6米4x2',energy:'柴油',body:'高栏/仓栅',low:13000,high:16000,src:'百度爱采购百科',note:'9.6米高栏 日租550-700 月租13000-16000'},
+  {u:'rental',cat:'9.6米4x2',energy:'柴油',body:'平板',low:8000,high:12000,src:'百度爱采购',note:'9.6米平板 月租8000-12000'},
+  {u:'rental',cat:'9.6米6x2',energy:'柴油',body:'厢式',low:15000,high:18258,src:'佳豪鑫/潮州物流',note:'带司机月租15473-18258，纯租日租约1170-1180'},
+  {u:'rental',cat:'9.6米6x2',energy:'柴油',body:'高栏/仓栅',low:13000,high:17000,src:'惠州物流行情',note:'9.6米厢/高栏带司机月租约15473'},
+  {u:'rental',cat:'9.6米8x4',energy:'柴油',body:'厢式',low:18000,high:24000,src:'行业行情估算',note:'前四后八载货月租上浮'},
+  {u:'rental',cat:'13米牵引',energy:'柴油',body:'平板',low:25800,high:26800,src:'佳豪鑫物流',note:'13米平板带司机月租25800-26800'},
+  {u:'rental',cat:'17.5米大板',energy:'柴油',body:'平板',low:38598,high:40532,src:'佳豪鑫物流',note:'17.5米大板带司机月租38598-40532'},
+  {u:'rental',cat:'49吨牵引',energy:'柴油',body:'平板',low:20000,high:30000,src:'行业行情估算',note:'49吨柴油牵引月租估算'},
+  {u:'rental',cat:'9.6米4x2',energy:'纯电',body:'厢式',low:19000,high:26000,src:'百度爱采购/行业调研',note:'限行城市新能源货车租金溢价约30%'},
+  {u:'rental',cat:'9.6米4x2',energy:'氢燃料',body:'厢式',low:22000,high:30000,src:'示范城市行情估算',note:'氢能重卡租赁多在示范城市，路权/补贴溢价'},
+  {u:'rental',cat:'9.6米4x2',energy:'混动',body:'厢式',low:17000,high:23000,src:'行业行情估算',note:'混动介于柴油与纯电之间'},
+  // ------ 二手车售卖 sale：万元（实际成交价，按车龄档） ------
+  {u:'sale',cat:'9.6米4x2',energy:'柴油',body:'厢式',ageMin:0,ageMax:2,low:13,high:19.7,src:'天天拍车',note:'J6L 260马力9.6米厢式准新约14.86万；飞翼19.69万'},
+  {u:'sale',cat:'9.6米4x2',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:7.5,high:12.5,src:'多麦车/今日头条',note:'东风天锦9.6米厢式 国六 成交7.5-12.5万'},
+  {u:'sale',cat:'9.6米4x2',energy:'柴油',body:'高栏/仓栅',ageMin:0,ageMax:2,low:15,high:22,src:'多麦车成交',note:'解放JH6 9.6米高栏 21-22年 成交17-22万'},
+  {u:'sale',cat:'9.6米6x2',energy:'柴油',body:'高栏/仓栅',ageMin:3,ageMax:5,low:11,high:18,src:'梁山/郑州行情',note:'解放JH6 9.6米高栏 国六 3-5年 11-18万'},
+  {u:'sale',cat:'9.6米6x2',energy:'柴油',body:'高栏/仓栅',ageMin:6,ageMax:12,low:5,high:10,src:'86货车网',note:'重汽豪瀚/解放 9.6米 2016-2018年 5-7万'},
+  {u:'sale',cat:'9.6米6x2',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:14,high:24.5,src:'百度爱采购',note:'解放JH6前四后八9.6米平板 国五 约24.5万'},
+  {u:'sale',cat:'9.6米8x4',energy:'柴油',body:'厢式',ageMin:3,ageMax:5,low:17,high:25,src:'多麦车/梁山行情',note:'前四后八9.6米 高栏/平板 国六 17-25万'},
+  {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:2,ageMax:4,low:14,high:18,src:'梁山行情',note:'东风天龙KL牵引 国六 2-3年 14-18万'},
+  {u:'sale',cat:'13米牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:11,src:'梁山行情',note:'重汽豪沃牵引 双驱460 国五 3-4年 8-11万'},
+  {u:'sale',cat:'17.5米大板',energy:'柴油',body:'平板',ageMin:3,ageMax:6,low:12,high:22,src:'行业行情估算',note:'17.5米大板二手车区间估算'},
+  {u:'sale',cat:'49吨牵引',energy:'柴油',body:'平板',ageMin:3,ageMax:5,low:8,high:18,src:'梁山/高安行情',note:'国六牵引车 3-5年 8-18万'},
+  {u:'sale',cat:'9.6米4x2',energy:'纯电',body:'厢式',ageMin:0,ageMax:2,low:28,high:42,src:'四川市场反馈',note:'9.6米新能源准新 280-350kWh 28-42万'},
+  {u:'sale',cat:'9.6米4x2',energy:'纯电',body:'厢式',ageMin:3,ageMax:5,low:22,high:35,src:'K车网/程力',note:'二手纯电重卡成交22-23万；电动冷藏车2022款32-35万'},
+  {u:'sale',cat:'9.6米4x2',energy:'纯电',body:'平板',ageMin:4,ageMax:8,low:12,high:28,src:'成都市场',note:'9.6米新能源二手 2019-2021年 12-25万'},
+  {u:'sale',cat:'49吨牵引',energy:'纯电',body:'平板',ageMin:3,ageMax:5,low:25,high:45,src:'行业行情估算',note:'49吨纯电牵引二手车估算'},
+  {u:'sale',cat:'49吨牵引',energy:'氢燃料',body:'平板',ageMin:2,ageMax:5,low:40,high:80,src:'行业行情估算',note:'氢能重卡二手稀缺，残值不确定，仅供参考'},
+  {u:'sale',cat:'9.6米4x2',energy:'混动',body:'厢式',ageMin:3,ageMax:5,low:18,high:30,src:'行业行情估算',note:'混动车型二手车估算'},
+];
+
+/* ==================== 状态与存储 ==================== */
+const LS_KEY='truckValuation_market_v2';
+const LS_SIG='truckValuation_signals_v2';
+let market=[];
+let signals=[];
+let remoteMeta=null;
+let mode='rental';
+
+function loadMarket(){
+  try{const raw=localStorage.getItem(LS_KEY);market=raw?JSON.parse(raw):JSON.parse(JSON.stringify(SEED_MARKET));}
+  catch(e){market=JSON.parse(JSON.stringify(SEED_MARKET));}
+  try{const s=localStorage.getItem(LS_SIG);signals=s?JSON.parse(s):[];}catch(e){signals=[];}
+  try{const m=localStorage.getItem(LS_KEY+'_meta');remoteMeta=m?JSON.parse(m):null;}catch(e){remoteMeta=null;}
+}
+function saveMarket(){localStorage.setItem(LS_KEY,JSON.stringify(market));}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3200);}
+
+/* ==================== 联网更新（读取 GitHub 仓库数据文件） ==================== */
+async function updateFromRemote(){
+  const btn=document.getElementById('btnUpdate');
+  btn.disabled=true;btn.textContent='⏳ 更新中…';
+  try{
+    const r=await fetch('market-data.json?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const d=await r.json();
+    if(!Array.isArray(d.data))throw new Error('数据格式不正确');
+    market=d.data;saveMarket();
+    signals=d.signals||[];localStorage.setItem(LS_SIG,JSON.stringify(signals));
+    remoteMeta={updatedAt:d.updatedAt||'',generatedBy:d.generatedBy||''};
+    localStorage.setItem(LS_KEY+'_meta',JSON.stringify(remoteMeta));
+    updateStamp();renderSignals();
+    if(document.getElementById('marketOverlay').classList.contains('show'))renderMarketTable();
+    toast('✅ 行情已更新（'+(remoteMeta.updatedAt||'未知时间')+'）');
+  }catch(e){
+    toast('⚠️ 读取失败：'+(location.protocol==='file:'?'请通过 GitHub Pages 访问后再更新':e.message)+'（可手动导入 JSON）');
+  }finally{btn.disabled=false;btn.textContent='🔄 更新行情';}
+}
+function renderSignals(){
+  const box=document.getElementById('signalList');
+  if(!signals.length){box.innerHTML='<div class="empty">暂无联网行情，点击「更新行情」加载</div>';return;}
+  document.getElementById('signalSub').textContent=
+    '共 '+signals.length+' 条 · 数据更新于 '+(remoteMeta&&remoteMeta.updatedAt||'未知');
+  box.innerHTML=signals.map(s=>
+    '<div class="sig-item"><div class="sig-meta">'+(s.date||'')+' · '+
+      (s.url?'<a href="'+s.url+'" target="_blank" rel="noopener">'+s.src+'</a>':s.src)+'</div>'+
+      '<div class="sig-text">'+s.text+'</div></div>').join('');
+}
+
+/* ==================== 模式切换 ==================== */
+function setMode(m){
+  mode=m;
+  document.getElementById('tabRental').classList.toggle('active',m==='rental');
+  document.getElementById('tabSale').classList.toggle('active',m==='sale');
+  document.getElementById('rentalFactors').style.display=m==='rental'?'':'none';
+  document.getElementById('saleFactors').style.display=m==='sale'?'':'none';
+  onEnergyChange();
+  document.getElementById('resultContent').innerHTML='<div class="empty">已切换至'+
+    (m==='rental'?'租赁':'二手车售卖')+'模式，填写参数后点击「开始评估」</div>';
+  document.getElementById('resultSub').textContent='填写左侧参数后点击「开始评估」';
+}
+function onEnergyChange(){
+  const e=document.getElementById('f_energy').value;
+  document.getElementById('batteryField').style.display=(e==='纯电')?'':'none';
+  document.getElementById('sohField').style.display=(e==='纯电')?'':'none';
+}
+
+/* ==================== 行情匹配 ==================== */
+function matchRental(cat,energy,body){
+  const base=market.filter(x=>x.u==='rental');
+  const tiers=[
+    base.filter(x=>x.cat===cat&&x.energy===energy&&x.body===body),
+    base.filter(x=>x.cat===cat&&x.energy===energy),
+    base.filter(x=>x.energy===energy), base];
+  for(const t of tiers){if(t.length)return t;}
+  return [];
+}
+function matchSale(cat,energy,body,age){
+  const base=market.filter(x=>x.u==='sale');
+  // 同车型+能源：优先精确车龄档，否则选车龄中心点最接近的档（不放宽到全部，避免新车档拉高旧车估值）
+  const sameCatEnergyBody=base.filter(x=>x.cat===cat&&x.energy===energy&&x.body===body);
+  const sameCatEnergy=base.filter(x=>x.cat===cat&&x.energy===energy);
+  const pool=sameCatEnergyBody.length?sameCatEnergyBody:sameCatEnergy;
+  if(pool.length){
+    const exact=pool.filter(x=>age>=(x.ageMin||0)&&age<=(x.ageMax||99));
+    if(exact.length)return exact;
+    // 计算每条车龄区间到输入车龄的距离（区间内为0）
+    const dist=x=>age<(x.ageMin||0)?(x.ageMin||0)-age:age>(x.ageMax||99)?age-(x.ageMax||99):0;
+    const minD=Math.min(...pool.map(dist));
+    const nearest=pool.filter(x=>dist(x)===minD);
+    return nearest;
+  }
+  // 再放宽：仅同能源
+  const sameE=base.filter(x=>x.energy===energy);
+  if(sameE.length){
+    const dist=x=>age<(x.ageMin||0)?(x.ageMin||0)-age:age>(x.ageMax||99)?age-(x.ageMax||99):0;
+    const minD=Math.min(...sameE.map(dist));
+    return sameE.filter(x=>dist(x)===minD);
+  }
+  return base.length?base:[];
+}
+function median(arr){const s=[...arr].sort((a,b)=>a-b);const m=Math.floor(s.length/2);
+  return s.length%2?s[m]:(s[m-1]+s[m])/2;}
+
+/* ==================== 核心计算 ==================== */
+function calculate(){
+  const cat=document.getElementById('f_cat').value;
+  const energy=document.getElementById('f_energy').value;
+  const body=document.getElementById('f_body').value;
+  const region=document.getElementById('f_region').value;
+  const brand=document.getElementById('f_brand').value;
+  const age=parseFloat(document.getElementById('f_age').value)||0;
+  const unit=mode==='rental'?'元/月':'万元';
+
+  const hit=mode==='rental'?matchRental(cat,energy,body):matchSale(cat,energy,body,age);
+  if(!hit.length){alert('行情库中暂无匹配数据，请到「市场行情库」补充对应车型行情。');return;}
+
+  const lows=hit.map(x=>x.low), highs=hit.map(x=>x.high);
+  const mLow=Math.min(...lows), mHigh=Math.max(...highs);
+  const mBase=median(hit.map(x=>(x.low+x.high)/2));
+
+  let factors=[], price, extraLine='';
+
+  if(mode==='rental'){
+    factors.push({n:'市场基准月租',v:null,note:hit.length+' 条同类行情中位数'});
+    let regionV=({'一线/沿海城市':1.18,'二三线城市':1.0,'内陆城市':0.88,
+      '限行城市':(energy==='柴油'?0.92:1.22)})[region];
+    factors.push({n:'区域市场 · '+region,v:regionV,note:energy!=='柴油'&&region==='限行城市'?'新能源路权溢价':(energy==='柴油'&&region==='限行城市'?'柴油限行折价':'')});
+    let ageV=age<=1?1.15:age<=3?1.0:age<=5?0.92:0.82;
+    factors.push({n:'车龄 · '+age+'年',v:ageV,note:age<=1?'准新车溢价':''});
+    let brandV=brand.startsWith('主流')?1.0:brand.startsWith('二线')?0.94:0.85;
+    factors.push({n:'品牌档次',v:brandV,note:brand.startsWith('主流')?'市场主流基准':''});
+    const termV=parseFloat(document.getElementById('f_term').value);
+    const driverV=parseFloat(document.getElementById('f_driver').value);
+    const insV=parseFloat(document.getElementById('f_insurance').value);
+    const tailV=parseFloat(document.getElementById('f_taillift').value);
+    const seasonV=parseFloat(document.getElementById('f_season').value);
+    factors.push({n:'租赁期限',v:termV,note:termV<1?'长租优惠':''});
+    factors.push({n:'司机配置',v:driverV,note:driverV>1?'含司机服务费':''});
+    factors.push({n:'保险方案',v:insV});
+    if(tailV>1)factors.push({n:'尾板配置',v:tailV});
+    factors.push({n:'租赁时节',v:seasonV});
+    if(energy==='纯电'){
+      const bat=parseFloat(document.getElementById('f_battery').value)||282;
+      const batV=bat>=400?1.05:bat<200?0.92:1.0;
+      factors.push({n:'电池容量 · '+bat+'kWh',v:batV,note:'续航影响租金'});
+    }
+    price=mBase*factors.filter(f=>f.v!=null).reduce((a,b)=>a*b.v,1);
+    price=Math.round(price/10)*10;
+  }else{
+    // 二手车：基准已是同龄成交价，因子只做相对微调
+    factors.push({n:'同龄二手车行情基准',v:null,note:hit.length+' 条成交价中位数 · 匹配车龄档 '+
+      (hit[0]?(hit[0].ageMin||0)+'-'+(hit[0].ageMax||'')+'年':'')+' · 您的车 '+age+'年'});
+    // 车龄超出匹配档上限时继续折价（每年约6%），避免旧车按新档估值
+    const maxAge=Math.max(...hit.map(x=>x.ageMax||99));
+    if(age>maxAge){
+      const overAge=age-maxAge;
+      const overV=Math.max(0.5,1-0.06*overAge);
+      factors.push({n:'超出行情档 · '+overAge+'年',v:overV,note:'旧于样本车龄，逐年折价'});
+    }
+    let brandV=brand.startsWith('主流')?1.0:brand.startsWith('二线')?0.95:0.88;
+    factors.push({n:'品牌档次',v:brandV,note:'以市场主流品牌为基准'});
+    const mile=parseFloat(document.getElementById('f_mileage').value)||0;
+    const perYear=age>0?mile/age:mile;
+    const mileV=perYear<=10?1.06:perYear<=15?1.0:perYear<=25?0.94:perYear<=35?0.86:0.78;
+    factors.push({n:'年均里程 · '+perYear.toFixed(1)+'万km',v:mileV,note:'重卡年15万km为常态'});
+    const emV=parseFloat(document.getElementById('f_emission').value);
+    factors.push({n:'排放标准',v:emV});
+    const condV=parseFloat(document.getElementById('f_condition').value);
+    const accV=parseFloat(document.getElementById('f_accident').value);
+    const maiV=parseFloat(document.getElementById('f_maintenance').value);
+    const modV=parseFloat(document.getElementById('f_mod').value);
+    factors.push({n:'车况等级',v:condV});
+    factors.push({n:'事故情况',v:accV});
+    factors.push({n:'保养记录',v:maiV});
+    factors.push({n:'改装情况',v:modV});
+    const bodyV=body==='冷藏'?1.08:body==='高栏/仓栅'?0.98:body==='平板'?0.98:1.0;
+    factors.push({n:'货箱形式',v:bodyV,note:body==='冷藏'?'冷链残值高':''});
+    const regionV=({'一线/沿海城市':1.0,'二三线城市':1.0,'内陆城市':0.96,
+      '限行城市':(energy==='柴油'?0.92:1.04)})[region];
+    factors.push({n:'区域市场',v:regionV});
+    if(energy==='纯电'){
+      const soh=parseFloat(document.getElementById('f_soh').value)||85;
+      const sohV=0.7+0.3*(soh/100);
+      factors.push({n:'电池健康度 SOH · '+soh+'%',v:sohV,note:'三电状态直接影响二手估值'});
+    }
+    price=mBase*factors.filter(f=>f.v!=null).reduce((a,b)=>a*b.v,1);
+    price=Math.round(price*100)/100;
+    extraLine=(hit[0]&&hit[0].src)?'主参考来源：'+hit.map(x=>x.src).filter((v,i,a)=>a.indexOf(v)===i).join('、'):'';
+  }
+
+  const lo=Math.round(price*(mode==='rental'?0.9:0.92)*100)/100;
+  const hi=Math.round(price*(mode==='rental'?1.1:1.08)*100)/100;
+  renderResult({cat,energy,body,unit,price,lo,hi,mLow,mHigh,mBase,hit,factors,extraLine});
+}
+
+/* ==================== 结果渲染 ==================== */
+function renderResult(d){
+  const pct=d.mHigh>d.mLow?(d.price-d.mLow)/(d.mHigh-d.mLow):0.5;
+  let vClass,vText;
+  if(d.price>d.mHigh){vClass='v-high';vText='高于市场行情';}
+  else if(d.price<d.mLow){vClass='v-low';vText='低于市场行情';}
+  else{vClass='v-mid';vText='处于市场行情区间内';}
+
+  document.getElementById('resultSub').textContent=
+    d.cat+' · '+d.energy+' · '+d.body+' · 基于 '+d.hit.length+' 条同类市场行情';
+
+  let advice='';
+  if(mode==='rental'){
+    if(vClass==='v-high')advice='<b>定价偏高：</b>高于市场主流区间。出租方可下调提升成交率；承租方可据此议价。';
+    else if(vClass==='v-low')advice='<b>定价偏低：</b>低于市场区间。承租方该报价具吸引力，但需核实车况与隐性费用。';
+    else advice='<b>定价合理：</b>落在市场主流区间内（约 '+(pct*100).toFixed(0)+'% 分位），可结合车况与服务微调。';
+  }else{
+    if(vClass==='v-high')advice='<b>要价偏高：</b>高于同龄二手车成交区间。卖方宜下调加快周转；买方需核验车况是否支撑溢价。';
+    else if(vClass==='v-low')advice='<b>估值偏低：</b>低于同龄市场区间。买方是机会但务必核查事故/营运记录；卖方可参考更高报价。';
+    else advice='<b>估值合理：</b>落在同龄二手车成交区间内（约 '+(pct*100).toFixed(0)+'% 分位）。3-5年为流通主力，车况与手续决定最终差价。';
+  }
+  if(d.extraLine)advice+='<div style="margin-top:8px;font-size:12px;color:var(--muted)">'+d.extraLine+'</div>';
+
+  let fRows='';
+  d.factors.forEach(f=>{
+    let cell='<span class="chip flat">基准</span>';
+    if(f.v!=null){const c=f.v>1.001?'up':f.v<0.999?'down':'flat';cell='<span class="chip '+c+'">×'+f.v.toFixed(2)+'</span>';}
+    fRows+='<tr><td>'+f.n+'</td>'+(f.note?'<td style="color:var(--muted)">'+f.note+'</td>':'<td></td>')+'<td class="num">'+cell+'</td></tr>';
+  });
+
+  document.getElementById('resultContent').innerHTML=
+    '<div class="price-hero">'+
+      '<div class="hero-main">'+
+        '<div class="lbl">评估'+(mode==='rental'?'租金':'二手车售价')+'（'+d.unit+'）</div>'+
+        '<div class="price">'+(mode==='rental'?fmtN(d.price):d.price.toFixed(2))+' <small>'+d.unit+'</small></div>'+
+        '<div class="range">合理区间：'+(mode==='rental'?fmtN(d.lo)+' ~ '+fmtN(d.hi):d.lo+' ~ '+d.hi)+' '+d.unit+'</div>'+
+        '<span class="verdict '+vClass+'">'+vText+'</span>'+
+      '</div>'+
+      '<div class="hero-side">'+
+        '<div class="stat"><span>行情样本数</span><b>'+d.hit.length+' 条</b></div>'+
+        '<div class="stat"><span>'+(mode==='rental'?'市场行情区间':'同龄二手车成交区间')+'</span><b>'+fmtN(d.mLow)+'~'+fmtN(d.mHigh)+'</b></div>'+
+        '<div class="stat"><span>行情基准中位</span><b>'+fmtN(d.mBase)+' '+d.unit+'</b></div>'+
+        '<div class="stat"><span>区间分位</span><b>'+(pct*100).toFixed(0)+'%</b></div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="advice">'+advice+'</div>'+
+    '<div class="chart-box"><div class="chart-title">市场定位 · 评估价 vs 行情区间</div>'+rangeChart(d)+'</div>'+
+    '<div class="chart-box"><div class="chart-title">因子影响分解（基准 → 评估价）</div>'+factorChart(d.factors)+'</div>'+
+    '<div class="chart-box"><div class="chart-title">定价因子明细</div>'+
+      '<table><thead><tr><th>因子</th><th>说明</th><th class="num">系数</th></tr></thead><tbody>'+fRows+'</tbody></table></div>';
+}
+
+function rangeChart(d){
+  const W=680,H=96,pad=40;
+  const min=Math.min(d.mLow,d.price)*0.9,max=Math.max(d.mHigh,d.price)*1.1;
+  const x=v=>pad+(v-min)/(max-min)*(W-2*pad),y=46;
+  let s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:100%">';
+  s+='<line x1="'+pad+'" y1="'+y+'" x2="'+(W-pad)+'" y2="'+y+'" stroke="#cbd5e1" stroke-width="2"/>';
+  s+='<rect x="'+x(d.mLow)+'" y="'+(y-14)+'" width="'+(x(d.mHigh)-x(d.mLow))+'" height="28" rx="6" fill="#dbeafe" stroke="#93c5fd"/>';
+  s+='<text x="'+pad+'" y="'+(y-20)+'" text-anchor="start" font-size="11" fill="#1e40af">市场行情区间</text>';
+  s+='<text x="'+x(d.mLow)+'" y="'+(y+30)+'" text-anchor="middle" font-size="10.5" fill="#6b7280">'+fmtN(d.mLow)+'</text>';
+  s+='<text x="'+x(d.mHigh)+'" y="'+(y+30)+'" text-anchor="middle" font-size="10.5" fill="#6b7280">'+fmtN(d.mHigh)+'</text>';
+  const col=d.price>d.mHigh?'#dc2626':d.price<d.mLow?'#d97706':'#0d9488';
+  s+='<line x1="'+x(d.price)+'" y1="'+(y-24)+'" x2="'+x(d.price)+'" y2="'+(y+22)+'" stroke="'+col+'" stroke-width="3"/>';
+  s+='<circle cx="'+x(d.price)+'" cy="'+y+'" r="7" fill="'+col+'"/>';
+  s+='<text x="'+x(d.price)+'" y="'+(y-32)+'" text-anchor="middle" font-size="11.5" font-weight="700" fill="'+col+'">评估 '+fmtN(d.price)+'</text>';
+  s+='</svg>';return s;
+}
+function factorChart(factors){
+  const fs=factors.filter(f=>f.v!=null);
+  if(!fs.length)return '<div style="color:var(--muted);font-size:12px">无调整因子</div>';
+  const W=680,rowH=24,H=fs.length*rowH+16,pad=170,mid=pad+(W-pad)/2,scale=(W-pad)/2/0.6;
+  let s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:100%">';
+  s+='<line x1="'+mid+'" y1="4" x2="'+mid+'" y2="'+(H-8)+'" stroke="#e5e7eb" stroke-width="1.5"/>';
+  fs.forEach((f,i)=>{
+    const y=10+i*rowH,dev=f.v-1,w=Math.abs(dev)*scale;
+    const col=dev>0.001?'#dc2626':dev<-0.001?'#16a34a':'#94a3b8';
+    s+='<text x="'+(pad-8)+'" y="'+(y+11)+'" text-anchor="end" font-size="11" fill="#374151">'+f.n+'</text>';
+    if(w>0.5)s+='<rect x="'+(dev>0?mid:mid-w)+'" y="'+y+'" width="'+w+'" height="15" rx="3" fill="'+col+'" opacity=".82"/>';
+    s+='<text x="'+(dev>0?mid+w+4:mid-w-4)+'" y="'+(y+11)+'" text-anchor="'+(dev>0?'start':'end')+'" font-size="10.5" fill="'+col+'">×'+f.v.toFixed(2)+'</text>';
+  });
+  s+='</svg>';return s;
+}
+function fmtN(n){return Number(n).toLocaleString('zh-CN',{maximumFractionDigits:2});}
+
+/* ==================== 行情库管理 ==================== */
+function openMarket(){renderMarketTable();document.getElementById('marketOverlay').classList.add('show');}
+function closeMarket(){document.getElementById('marketOverlay').classList.remove('show');}
+function renderMarketTable(){
+  const filter=document.getElementById('m_filter').value;
+  const rows=market.filter(x=>filter==='all'||x.u===filter);
+  document.getElementById('m_count').textContent='共 '+rows.length+' 条记录';
+  document.getElementById('marketTbody').innerHTML=rows.map(x=>{
+    const idx=market.indexOf(x);
+    return '<tr>'+
+      '<td><span class="chip '+(x.u==='rental'?'up':'flat')+'">'+(x.u==='rental'?'租赁':'二手车')+'</span></td>'+
+      '<td>'+x.cat+'</td><td>'+x.energy+'</td><td>'+x.body+'</td>'+
+      '<td>'+(x.u==='sale'?((x.ageMin||0)+'-'+(x.ageMax||'')+'年'):'—')+'</td>'+
+      '<td class="num">'+x.low+'</td><td class="num">'+x.high+'</td>'+
+      '<td class="src" title="'+x.src+'">'+x.src+'</td>'+
+      '<td class="src" title="'+x.note+'">'+x.note+'</td>'+
+      '<td><button class="del" onclick="delMarket('+idx+')">删除</button></td></tr>';
+  }).join('')||'<tr><td colspan="10" class="empty">暂无记录</td></tr>';
+}
+function addMarket(){
+  const o={u:document.getElementById('m_u').value,cat:document.getElementById('m_cat').value,
+    energy:document.getElementById('m_energy').value,body:document.getElementById('m_body').value,
+    low:parseFloat(document.getElementById('m_low').value),high:parseFloat(document.getElementById('m_high').value),
+    src:document.getElementById('m_src').value||'手动录入',note:document.getElementById('m_note').value||''};
+  if(o.u==='sale'){o.ageMin=parseFloat(document.getElementById('m_ageMin').value)||0;o.ageMax=parseFloat(document.getElementById('m_ageMax').value)||99;}
+  if(!(o.low>0&&o.high>0)||o.high<o.low){alert('请填写有效的低价与高价（高价≥低价）。');return;}
+  market.push(o);saveMarket();renderMarketTable();updateStamp();
+  ['m_low','m_high','m_src','m_note'].forEach(id=>document.getElementById(id).value='');
+}
+function delMarket(i){if(confirm('确定删除该行情条目？')){market.splice(i,1);saveMarket();renderMarketTable();updateStamp();}}
+function resetMarket(){if(confirm('恢复为内置默认行情？您添加的条目将丢失。')){
+  market=JSON.parse(JSON.stringify(SEED_MARKET));saveMarket();
+  localStorage.removeItem(LS_KEY+'_meta');remoteMeta=null;
+  renderMarketTable();updateStamp();}}
+function exportMarket(){
+  const payload={updatedAt:remoteMeta&&remoteMeta.updatedAt||'',generatedBy:'manual-export',data:market,signals:signals};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='货车市场行情库_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+}
+function importMarket(e){
+  const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);const arr=Array.isArray(d)?d:d.data;
+    if(!Array.isArray(arr))throw 0;market=arr;saveMarket();
+    if(d.signals){signals=d.signals;localStorage.setItem(LS_SIG,JSON.stringify(signals));renderSignals();}
+    if(d.updatedAt){remoteMeta={updatedAt:d.updatedAt};localStorage.setItem(LS_KEY+'_meta',JSON.stringify(remoteMeta));}
+    renderMarketTable();updateStamp();toast('已导入 '+arr.length+' 条行情。');}
+    catch(err){alert('文件格式不正确，请导入本系统导出的 JSON。');}};
+  r.readAsText(f);e.target.value='';
+}
+function updateStamp(){
+  const src=remoteMeta&&remoteMeta.updatedAt?('联网更新 '+remoteMeta.updatedAt):'内置快照';
+  document.getElementById('dataStamp').innerHTML='行情库：<b>'+market.length+'</b> 条 · '+src;
+}
+
+/* ==================== 初始化 ==================== */
+loadMarket();updateStamp();renderSignals();calculate();
+</script>
+</body>
+</html>
