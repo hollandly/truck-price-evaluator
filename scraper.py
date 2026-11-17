@@ -94,12 +94,25 @@ def split_sentences(text):
     return [p.strip() for p in parts if p.strip()]
 
 
+def detect_scope(sent):
+    """识别价格口径，供前端标注可信度"""
+    if re.search(r"带司机|含司机|司机费", sent):
+        return "带司机价"
+    if re.search(r"元/月|元每月|月租|租金", sent):
+        return "租赁价"
+    if re.search(r"新车|指导价|裸车|厂商|官方价", sent):
+        return "新车价"
+    if re.search(r"二手|成交|残值|收购|保值", sent):
+        return "二手车价"
+    return "口径不明"
+
+
 def extract_price_sentences(text, keys):
     """提取既包含价格数字、又命中关键词的句子；过滤明显新车广告"""
     out = []
     price_re = re.compile(r"\d+(?:\.\d+)?\s*(?:万元|万|元/月|元每月|元/天)")
-    # 噪声：纯新车促销、询价引导、联系方式
-    noise_re = re.compile(r"询底价|获取最低价|促销|优惠|立减|首付|月供|电话|地址|抢购|指导价|厂商|促销价")
+    # 噪声：纯新车促销、询价引导、联系方式、金融方案
+    noise_re = re.compile(r"询底价|获取最低价|促销|优惠|立减|首付|月供|电话|地址|抢购|厂商指导|促销价|来电|微信|咨询")
     for sent in split_sentences(text):
         if not (8 <= len(sent) <= 160):
             continue
@@ -144,6 +157,7 @@ def main():
                     "src": src["name"],
                     "url": src["url"],
                     "text": s,
+                    "scope": detect_scope(s),   # 口径标注：新车价/二手车价/租赁价/带司机价
                     "scraped": True,
                 })
             print(f"[成功] {src['name']}: {len(sentences)} 条")
