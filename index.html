@@ -138,14 +138,21 @@
           <div class="field">
             <label>车型规格</label>
             <select id="f_cat">
-              <option value="9.6米单桥(4x2)">9.6米单桥(4x2)</option>
-              <option value="9.6米双桥(6x2)">9.6米双桥(6x2)</option>
-              <option value="9.6米前四后八(8x4)">9.6米前四后八(8x4)</option>
-              <option value="9.6米甩箱车">9.6米甩箱车(车厢可卸)</option>
-              <option value="13米牵引">13米牵引</option>
-              <option value="17.5米大板">17.5米大板</option>
-              <option value="49吨牵引">49吨牵引</option>
+              <optgroup label="9.6米载货车（固定车厢）">
+                <option value="9.6米单桥(4x2)">9.6米单桥(4x2)</option>
+                <option value="9.6米双桥(6x2)">9.6米双桥(6x2)</option>
+                <option value="9.6米前四后八(8x4)">9.6米前四后八(8x4)</option>
+              </optgroup>
+              <optgroup label="甩箱车（车厢可卸式，独立品类）">
+                <option value="9.6米甩箱车">9.6米甩箱车（车厢可卸）</option>
+              </optgroup>
+              <optgroup label="牵引车 / 大板">
+                <option value="13米牵引">13米牵引</option>
+                <option value="17.5米大板">17.5米大板</option>
+                <option value="49吨牵引">49吨牵引</option>
+              </optgroup>
             </select>
+            <div class="hint">甩箱车=车厢可整体卸下的车型（含液压拉钩机构），已作为独立品类单列；租赁与二手行情库中均有对应基准。</div>
           </div>
           <div class="field">
             <label>能源类型</label>
@@ -180,8 +187,8 @@
             </select>
           </div>
         </div>
-        <div class="field">
-          <label>车源类型（租赁定价的关键分叉）</label>
+        <div class="field" id="sourceField">
+          <label>车源类型（仅租赁模式：出租方是谁）</label>
           <select id="f_source" onchange="onSourceChange()">
             <option value="private" selected>个人车主直租（价格低，无维保/保险服务）</option>
             <option value="company">租赁公司（价格高，含保险/维保/票据）</option>
@@ -269,6 +276,16 @@
           <label>新车购买价（万元，含购置税上牌 · 强烈建议填写）</label>
           <input type="number" id="f_newprice" placeholder="如：新车发票价+购置税，留空则仅用市场行情法" min="1" max="500" step="0.1">
           <div class="hint">填入后系统会按该车实际购入价×能源残值率折旧，与市场成交价对照，两者互相印证更可靠</div>
+        </div>
+        <div class="field">
+          <label>车辆来源（二手车专属：这辆车此前由谁使用）</label>
+          <select id="f_vehiclesource">
+            <option value="individual" selected>个人/个体车主一手车（非营运，车况相对透明）</option>
+            <option value="fleet">物流车队营运车（高强度使用，里程偏高）</option>
+            <option value="rental">租赁公司退役车（营运强度大，多人驾驶）</option>
+            <option value="dealer">车商库存/收购车（已整备转售，信息需核验）</option>
+          </select>
+          <div class="hint">不同来源的营运强度与车况透明度不同，会按系数修正估值；个人一手车为基准（×1.00）</div>
         </div>
         <div class="row2">
           <div class="field">
@@ -576,6 +593,7 @@ function setMode(m){
   document.getElementById('tabSale').classList.toggle('active',m==='sale');
   document.getElementById('rentalFactors').style.display=m==='rental'?'':'none';
   document.getElementById('saleFactors').style.display=m==='sale'?'':'none';
+  document.getElementById('sourceField').style.display=m==='rental'?'':'none'; // 车源类型仅租赁模式
   onEnergyChange();
   document.getElementById('resultContent').innerHTML='<div class="empty">已切换至'+
     (m==='rental'?'租赁':'二手车售卖')+'模式，填写参数后点击「开始评估」</div>';
@@ -617,6 +635,13 @@ const BODY_FACTOR={
 };
 // 租赁公司相对个人车主的溢价系数（含保险/维保/票据/服务）
 const SOURCE_FACTOR={'private':1.0,'company':1.85};
+// 二手车车辆来源系数：按营运强度与车况透明度修正（个人一手车为基准）
+const VEHICLE_SOURCE_FACTOR={
+  'individual':{v:1.0,note:'个人/个体一手车，非营运基准'},
+  'fleet':{v:0.93,note:'车队营运高强度，折价'},
+  'rental':{v:0.90,note:'租赁退役车，多人驾驶折价'},
+  'dealer':{v:0.97,note:'车商整备车，信息需核验'}
+};
 
 /* ==================== 新车价折旧法：分能源残值率曲线 ====================
    数据依据（2026公开调研）：
@@ -762,6 +787,12 @@ function calculate(){
     }
     const bF=BRAND_FACTOR[brand]||{sale:1.0};
     factors.push({n:'品牌 · '+brand.split('（')[0],v:bF.sale,note:'品牌流通性影响残值'});
+    // 车辆来源（二手车专属）：营运强度与车况透明度修正
+    const vsSel=document.getElementById('f_vehiclesource');
+    const vsKey=vsSel.value;
+    const vsF=VEHICLE_SOURCE_FACTOR[vsKey]||VEHICLE_SOURCE_FACTOR['individual'];
+    const vsLabel=(vsSel.options[vsSel.selectedIndex]||{}).text||vsKey;
+    factors.push({n:'车辆来源 · '+vsLabel.split('（')[0],v:vsF.v,note:vsF.note});
     const mile=parseFloat(document.getElementById('f_mileage').value)||0;
     const perYear=age>0?mile/age:mile;
     const mileV=perYear<=10?1.06:perYear<=15?1.0:perYear<=25?0.94:perYear<=35?0.86:0.78;
