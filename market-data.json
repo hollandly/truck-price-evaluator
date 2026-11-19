@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-17 16:20",
+  "updatedAt": "2026-11-19 16:10",
   "generatedBy": "GitHub Actions / scraper.py",
   "note": "由 GitHub Actions 定期抓取更新，或手动维护。data 为结构化行情基准；signals 为联网抓取的最新报价摘录。",
   "data": [
@@ -669,24 +669,6 @@
       "date": "2026-11",
       "src": "深圳·货车出租价格",
       "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
-      "text": "如仅租车不带司机，需提供有效驾驶证及押金（车型不同押金3000-8000元），并签订租车协议。",
-      "scope": "带司机价",
-      "region": "珠三角",
-      "scraped": true
-    },
-    {
-      "date": "2026-11",
-      "src": "深圳·货车出租价格",
-      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
-      "text": "以上价格为带司机出租参考价，仅租车（不带司机）价格约为基础价的60%-70%，但需另付押金。",
-      "scope": "带司机价",
-      "region": "珠三角",
-      "scraped": true
-    },
-    {
-      "date": "2026-11",
-      "src": "深圳·货车出租价格",
-      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
       "text": "三种计费模式详解 模式一：按小时计费 9.6米厢车 约 127 元/小时 （最低2小时起）。",
       "scope": "口径不明",
       "region": "珠三角",
@@ -706,15 +688,6 @@
       "src": "深圳·货车出租价格",
       "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
       "text": "模式二：按公里计费 9.6米厢车 约 8 元/公里 （最低50公里起）。",
-      "scope": "口径不明",
-      "region": "珠三角",
-      "scraped": true
-    },
-    {
-      "date": "2026-11",
-      "src": "深圳·货车出租价格",
-      "url": "https://shenzhenaiunion.com/wuliu/truckrentps/shenzhen-qingshuihe-203273.html",
-      "text": "需提供有效驾驶证及押金（根据车型3000-8000元），签订租车协议。",
       "scope": "口径不明",
       "region": "珠三角",
       "scraped": true
@@ -768,7 +741,7 @@
       "date": "2026-11",
       "src": "天天拍车·解放J6二手价",
       "url": "https://m.ttpai.cn/zixun/zhishi-900927",
-      "text": "新车报价与二手车保值率全解析 二手车知识 · 06-02 好友卖一辆车，你赚 500 元 南京上门收车检测靠谱吗？",
+      "text": "新车报价与二手车保值率全解析 二手车知识 · 06-02 好友卖一辆车，你赚 500 元 金华卖车平台合同要注意什么？",
       "scope": "新车价",
       "region": "全国",
       "scraped": true
